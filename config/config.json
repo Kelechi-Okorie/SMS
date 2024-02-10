@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
+    "username": "new_user",
+    "password": "password",
+    "database": "sms_db_dev",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -14,9 +14,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "new_user",
+    "password": "password",
+    "database": "sms_db_prod",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
