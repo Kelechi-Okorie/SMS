@@ -1,7 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
+
+const portalAdminAttributes = require('../bootstraps/portalAdmin')(Sequelize);
+
 module.exports = (sequelize, DataTypes) => {
   class PortalAdmin extends Model {
     /**
@@ -13,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  PortalAdmin.init({
-    userId: DataTypes.INTEGER
-  }, {
+  PortalAdmin.init(portalAdminAttributes, {
     sequelize,
     modelName: 'PortalAdmin',
   });

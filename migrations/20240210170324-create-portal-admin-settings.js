@@ -2,25 +2,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('PortalAdminSettings', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+
+    const portalAdminSettingAttributes = require('../bootstraps/portalAdminSetting')(Sequelize);
+
+    await queryInterface.createTable('PortalAdminSettings', portalAdminSettingAttributes);
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('PortalAdminSettings');

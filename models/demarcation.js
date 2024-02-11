@@ -1,7 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
+
+const demarcationAttributes = require('../bootstraps/demarcation')(Sequelize);
+
 module.exports = (sequelize, DataTypes) => {
   class Demarcation extends Model {
     /**
@@ -13,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Demarcation.init({
-    name: DataTypes.STRING
-  }, {
+  Demarcation.init(demarcationAttributes, {
     sequelize,
     modelName: 'Demarcation',
   });

@@ -17,7 +17,35 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init(...userAttributes, {
+  User.init({
+    ...userAttributes,
+
+    // Virtual fields
+    fullName: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `${this.firstName} ${this.middleName} ${this.lastName}`
+      }
+    },
+    type: {
+      type: DataTypes.VIRTUAL,
+      get() {
+
+        if (this.isPortalAdmin) {
+          return 'portalAdmin';
+        } else if (this.isSchoolStaff) {
+          return 'schoolStaff';
+        } else if (this.isStudent) {
+          return 'student';
+        } else if (this.isParent) {
+          return 'parent';
+        } else {
+          return 'unknown'
+        }
+      }
+    }
+
+  }, {
     sequelize,
     modelName: 'User',
   });

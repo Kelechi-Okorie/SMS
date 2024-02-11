@@ -1,7 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
+
+const assessmentLineItemAttributes = require('../bootstraps/assessmentLineItem')(Sequelize);
+
 module.exports = (sequelize, DataTypes) => {
   class AssessmentLineItem extends Model {
     /**
@@ -13,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  AssessmentLineItem.init({
-    schoolId: DataTypes.INTEGER
-  }, {
+  AssessmentLineItem.init(assessmentLineItemAttributes, {
     sequelize,
     modelName: 'AssessmentLineItem',
   });

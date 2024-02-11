@@ -2,25 +2,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('SubjectLineItems', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      schoolId: {
-        type: Sequelize.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+
+    const subjectLineItemAttributes = require('../bootstraps/subjectLineItem')(Sequelize);
+
+    await queryInterface.createTable('SubjectLineItems', subjectLineItemAttributes);
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('SubjectLineItems');

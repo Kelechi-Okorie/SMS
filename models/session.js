@@ -1,7 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
+
+const sessionAttributes = require('../bootstraps/session')(Sequelize);
+
 module.exports = (sequelize, DataTypes) => {
   class Session extends Model {
     /**
@@ -13,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Session.init({
-    name: DataTypes.STRING
-  }, {
+  Session.init(sessionAttributes, {
     sequelize,
     modelName: 'Session',
   });

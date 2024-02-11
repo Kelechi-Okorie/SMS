@@ -1,7 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
+
+const studentClassJunctionTableAttributes = require('../bootstraps/StudentClassJunctionTable')(Sequelize);
+
 module.exports = (sequelize, DataTypes) => {
   class StudentClassJunctionTable extends Model {
     /**
@@ -13,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  StudentClassJunctionTable.init({
-    studentId: DataTypes.INTEGER
-  }, {
+  StudentClassJunctionTable.init(studentClassJunctionTableAttributes, {
     sequelize,
     modelName: 'StudentClassJunctionTable',
   });
