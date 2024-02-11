@@ -10,15 +10,15 @@ module.exports = (Sequelize) => {
         },
         userId: {
             type: DataTypes.INTEGER,
-            references: { model: 'users', key: 'id'}
+            references: { model: 'Users', key: 'id'}
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id'}
+            references: { model: 'Schools', key: 'id'}
         },
         termId: {
             type: DataTypes.INTEGER,
-            references: { model: 'terms', key: 'id'}
+            references: { model: 'Terms', key: 'id'}
         },
         paymentGateway: {
             type: DataTypes.STRING(191)

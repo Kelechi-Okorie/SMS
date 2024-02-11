@@ -10,19 +10,19 @@ module.exports = (Sequelize) => {
         },
         studentResultId: {
             type: DataTypes.INTEGER,
-            references: {model: 'studentresults', key: 'id'}
+            references: {model: 'StudentResults', key: 'id'}
         },
         subjectId: {
             type: DataTypes.INTEGER,
-            references: {model: 'subjects', key: 'id'}
+            references: {model: 'Subjects', key: 'id'}
         },
         schoolStaffId: {
             type: DataTypes.INTEGER,
-            references: {model: 'schoolstaffs', key: 'id'}
+            references: {model: 'SchoolStaffs', key: 'id'}
         },
         gradeId: {
             type: DataTypes.INTEGER,
-            references: {model: 'grades', key: 'id'}
+            references: {model: 'Grades', key: 'id'}
         },
         score: {
             type: DataTypes.INTEGER

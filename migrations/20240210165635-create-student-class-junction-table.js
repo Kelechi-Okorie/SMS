@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
 
-    const studentClassJunctionTableAttributes = require('../bootstraps/StudentClassJunctionTable')(Sequelize);
+    const studentClassJunctionTableAttributes = require('../bootstraps/studentClassJunctionTable')(Sequelize);
     await queryInterface.createTable('StudentClassJunctionTables', studentClassJunctionTableAttributes);
   },
   async down(queryInterface, Sequelize) {

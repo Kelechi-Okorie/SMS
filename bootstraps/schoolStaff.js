@@ -10,11 +10,11 @@ module.exports = (Sequelize) => {
         },
         userId: {
             type: DataTypes.INTEGER,
-            references: { model: 'users', key: 'id'}
+            references: { model: 'Users', key: 'id'}
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id'}
+            references: { model: 'Schools', key: 'id'}
         },
         isDisabled: {
             type: DataTypes.BOOLEAN,
@@ -25,7 +25,7 @@ module.exports = (Sequelize) => {
         },
         disabledBy: {
             type: DataTypes.INTEGER,
-            references: {model: 'schoolstaffs', key: 'id'}
+            references: {model: 'SchoolStaffs', key: 'id'}
         },
         disableDate: {
             type: DataTypes.DATE

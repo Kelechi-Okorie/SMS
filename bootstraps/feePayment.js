@@ -11,11 +11,11 @@ module.exports = (Sequelize) => {
       schoolId: {
         type: DataTypes.INTEGER,
         // allowNull: false,
-        references: { model: 'schools', key: 'id' }
+        references: { model: 'Schools', key: 'id' }
       },
       feeId: {
         type: DataTypes.INTEGER,
-        references: { model: 'fees', key: 'id' }
+        references: { model: 'Fees', key: 'id' }
       },
       paymentGateway: {
         type: DataTypes.STRING(191)
@@ -26,18 +26,18 @@ module.exports = (Sequelize) => {
       },
       studentId: {
         type: DataTypes.INTEGER,
-        references: { model: 'students', key: 'id' }
+        references: { model: 'Students', key: 'id' }
       },
       studentClassId: {
         type: DataTypes.INTEGER
       },
       sessionId: {
         type: DataTypes.INTEGER,
-        references: { model: 'sessions', key: 'id' }
+        references: { model: 'Sessions', key: 'id' }
       },
       termId: {
         type: DataTypes.INTEGER,
-        references: { model: 'terms', key: 'id' }
+        references: { model: 'Terms', key: 'id' }
       },
       feeAmount: {
         type: DataTypes.INTEGER
@@ -53,7 +53,7 @@ module.exports = (Sequelize) => {
       },
       processedBy: {
         type: DataTypes.INTEGER,
-        references: { model: 'schoolstaffs', key: 'id'}
+        references: { model: 'SchoolStaffs', key: 'id'}
       },
       createdAt: {
         allowNull: false,

@@ -10,7 +10,7 @@ module.exports = (Sequelize) => {
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id'}
+            references: { model: 'Schools', key: 'id'}
         },
         name: { 
             type: DataTypes.STRING(191),
@@ -35,7 +35,7 @@ module.exports = (Sequelize) => {
         },
         sessionId: {
             type: DataTypes.INTEGER,
-            references: { model: 'sessions', key: 'id'}
+            references: { model: 'Sessions', key: 'id'}
         },
         isDepartmentSpecific: {
             type: DataTypes.BOOLEAN
@@ -48,14 +48,14 @@ module.exports = (Sequelize) => {
         },
         schoolClassId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolclasses', key: 'id'}
+            references: { model: 'SchoolClasses', key: 'id'}
         },
         isTermSpecific: {
             type: DataTypes.BOOLEAN
         },
         termId: {
             type: DataTypes.INTEGER,
-            references: { model: 'terms', key: 'id'}
+            references: { model: 'Terms', key: 'id'}
         },
         amount: {
             type: DataTypes.INTEGER.UNSIGNED

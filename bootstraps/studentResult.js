@@ -10,31 +10,31 @@ module.exports = (Sequelize) => {
       },
       schoolId: {
         type: DataTypes.INTEGER,
-        references: { model: 'schools', key: 'id' }
+        references: { model: 'Schools', key: 'id' }
       },
       sessionId: {
         type: DataTypes.INTEGER,
-        references: { model: 'sessions', key: 'id' }
+        references: { model: 'Sessions', key: 'id' }
       },
       termId: {
         type: DataTypes.INTEGER,
-        references: { model: 'terms', key: 'id' }
+        references: { model: 'Terms', key: 'id' }
       },
       schoolClassId: {
         type: DataTypes.INTEGER,
-        references: { model: 'schoolclasses', key: 'id' }
+        references: { model: 'SchoolClasses', key: 'id' }
       },
       classDemarcationId: {
         type: DataTypes.INTEGER,
-        references: { model: 'classdemarcations', key: 'id' }
+        references: { model: 'Demarcations', key: 'id' }
       },
       studentClassId: {
         type: DataTypes.INTEGER,
-        references: { model: 'studentclasses', key: 'id' }
+        references: { model: 'StudentClasses', key: 'id' }
       },
       studentId: {
         type: DataTypes.INTEGER,
-        references: { model: 'students', key: 'id' }
+        references: { model: 'Students', key: 'id' }
       },
       isApproved: {
         type: DataTypes.BOOLEAN,

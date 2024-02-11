@@ -10,7 +10,7 @@ module.exports = (Sequelize) => {
         },
         sessionId: {
             type: DataTypes.INTEGER,
-            references: { model: 'sessions', key: 'id' }
+            references: { model: 'Sessions', key: 'id' }
         },
         name: {
             type: DataTypes.STRING(191)

@@ -13,15 +13,15 @@ module.exports = (Sequelize) => {
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id' }
+            references: { model: 'Schools', key: 'id' }
         },
         schoolStaffId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id' }
+            references: { model: 'SchoolStaffs', key: 'id' }
         },
         studentId: {
             type: DataTypes.INTEGER,
-            references: { model: 'students', key: 'id' }
+            references: { model: 'Students', key: 'id' }
         },
         createdAt: {
             allowNull: false,

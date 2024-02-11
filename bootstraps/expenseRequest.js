@@ -10,7 +10,7 @@ module.exports = (Sequelize) => {
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id' }
+            references: { model: 'Schools', key: 'id' }
         },
         name: {
             type: DataTypes.STRING(191),
@@ -37,14 +37,14 @@ module.exports = (Sequelize) => {
         },
         requestedBy: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id' }
+            references: { model: 'SchoolStaffs', key: 'id' }
         },
         isApproved: {
             type: DataTypes.BOOLEAN
         },
         approvedBy: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id' }
+            references: { model: 'SchoolStaffs', key: 'id' }
         },
         approvalDate: {
             type: DataTypes.DATE
@@ -54,7 +54,7 @@ module.exports = (Sequelize) => {
         },
         rejectedBy: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id' }
+            references: { model: 'SchoolStaffs', key: 'id' }
         },
         rejectionDate: {
             type: DataTypes.DATE

@@ -10,11 +10,11 @@ module.exports = (Sequelize) => {
         },
         userId: {
             type: DataTypes.INTEGER,
-            references: { model: 'users', key: 'id' }
+            references: { model: 'Users', key: 'id' }
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id' }
+            references: { model: 'Schools', key: 'id' }
         },
         regNumber: {
             type: DataTypes.STRING(191),
@@ -29,7 +29,7 @@ module.exports = (Sequelize) => {
         },
         graduationSessionId: {
             type: DataTypes.INTEGER,
-            references: { model: 'sessions', on: 'id' }
+            references: { model: 'Sessions', on: 'id' }
         },
         isDisabled: {
             type: DataTypes.BOOLEAN,
@@ -40,7 +40,7 @@ module.exports = (Sequelize) => {
         },
         disabledBy: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id' }
+            references: { model: 'SchoolStaffs', key: 'id' }
         },
         disableDate: {
             type: DataTypes.DATE

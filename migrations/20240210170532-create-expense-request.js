@@ -5,9 +5,9 @@ module.exports = {
 
     const expenseRequestAttributes = require('../bootstraps/expenseRequest')(Sequelize);
 
-    await queryInterface.createTable('ExpenseRequeats', expenseRequestAttributes);
+    await queryInterface.createTable('ExpenseRequests', expenseRequestAttributes);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ExpenseRequeats');
+    await queryInterface.dropTable('ExpenseRequests');
   }
 };

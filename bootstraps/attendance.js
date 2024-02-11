@@ -10,23 +10,23 @@ module.exports = (Sequelize) => {
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id' }
+            references: { model: 'Schools', key: 'id' }
         },
         sessionId: {
             type: DataTypes.INTEGER,
-            references: { model: 'sessions', key: 'id' }
+            references: { model: 'Sessions', key: 'id' }
         },
         termId: {
             type: DataTypes.INTEGER,
-            references: { model: 'terms', key: 'id' }
+            references: { model: 'Terms', key: 'id' }
         },
         studentClassId: {
             type: DataTypes.INTEGER,
-            references: { model: 'studentclasses', key: 'id' }
+            references: { model: 'StudentClasses', key: 'id' }
         },
         studentId: {
             type: DataTypes.INTEGER,
-            references: { model: 'students', key: 'id' }
+            references: { model: 'Students', key: 'id' }
         },
         isPresent: {
             type: DataTypes.BOOLEAN,
@@ -35,7 +35,7 @@ module.exports = (Sequelize) => {
         },
         takenBy: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id' }
+            references: { model: 'SchoolStaffs', key: 'id' }
         },
         createdAt: {
             allowNull: false,

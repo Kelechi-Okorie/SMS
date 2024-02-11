@@ -13,7 +13,7 @@ module.exports = (Sequelize) => {
         },
         schoolTypeId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schooltypes', key: "id"}
+            references: { model: 'SchoolTypes', key: "id"}
         },
         value: {
             type: DataTypes.TEXT,

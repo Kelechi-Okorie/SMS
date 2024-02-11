@@ -3,7 +3,7 @@ const {
   Model, Sequelize
 } = require('sequelize');
 
-const studentClassJunctionTableAttributes = require('../bootstraps/StudentClassJunctionTable')(Sequelize);
+const studentClassJunctionTableAttributes = require('../bootstraps/studentClassJunctionTable')(Sequelize);
 
 module.exports = (sequelize, DataTypes) => {
   class StudentClassJunctionTable extends Model {

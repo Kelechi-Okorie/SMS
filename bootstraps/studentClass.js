@@ -10,23 +10,23 @@ module.exports = (Sequelize) => {
         },
         schoolId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schools', key: 'id' }
+            references: { model: 'Schools', key: 'id' }
         },
         sessionId: {
             type: DataTypes.INTEGER,
-            references: { model: 'sessions', key: 'id' }
+            references: { model: 'Sessions', key: 'id' }
         },
         schoolClassId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolclasses', key: 'id' }
+            references: { model: 'SchoolClasses', key: 'id' }
         },
         classDemarcationId: {
             type: DataTypes.INTEGER,
-            references: { model: 'classdemarcations', key: 'id' }
+            references: { model: 'Demarcations', key: 'id' }
         },
         managerId: {
             type: DataTypes.INTEGER,
-            references: { model: 'schoolstaffs', key: 'id'}
+            references: { model: 'SchoolStaffs', key: 'id'}
         }
     }
 }
