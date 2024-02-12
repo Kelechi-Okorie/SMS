@@ -13,7 +13,7 @@ const userRouter = require('./routes/userRoutes');
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
-app.set('views', '/views')
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
 // userRouter.route('/').get(async () => {
@@ -23,7 +23,8 @@ app.set('view engine', 'ejs');
 app.use('/dashboard/users', userRouter)
 
 app.get('/', async (req, res) => {
-    res.send('the testing file');
+    res.render('index')
+    // res.send('the testing file');
 });
 
 app.get('/tests', async (req, res) => {
