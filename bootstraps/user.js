@@ -45,25 +45,15 @@ module.exports = (Sequelize) => {
             type: DataTypes.DATE,
             defaultValue: new Date()
         },
-        addressResidenceStreet: {
+        addressStreet: {
             type: DataTypes.STRING(191)
         },
-        addressResidenceLGA: {
+        addressLGA: {
             type: DataTypes.STRING(191)
         },
-        addressResidenceState: {
+        addressState: {
             type: DataTypes.STRING(191)
         },
-        addressOriginState: {
-            type: DataTypes.STRING(191)
-        },
-        addressOriginLGA: {
-            type: DataTypes.STRING(191)
-        },
-        addressOriginCompound: {
-            type: DataTypes.STRING(191)
-        },
-
         lastLoginAt: {
             type: DataTypes.BOOLEAN
         },
