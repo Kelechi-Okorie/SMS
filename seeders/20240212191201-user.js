@@ -23,22 +23,22 @@ module.exports = {
     for(let i = 0; i < 30; i++) {
 
       
-      const firstName = faker.name.firstName();
-      const lastName = faker.name.lastName();
+      const firstName = faker.person.firstName();
+      const lastName = faker.person.lastName();
       
       const userName = (`${firstName}-${lastName}@gmail.com`).toLowerCase();
       
     users.push({
       firstName: lastName,
-      lastName: faker.name.lastName(),
-      middleName: faker.name.middleName(),
+      lastName: faker.person.lastName(),
+      middleName: faker.person.middleName(),
       userName: userName,
       password: bcrypt.hashSync(userName, bcrypt.genSaltSync(12)),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.number(),
       dob: faker.date.past(),
-      addressStreet: faker.address.streetAddress(),
-      addressState: faker.address.state(),
-      addressLGA: faker.address.cityName(),
+      addressStreet: faker.location.streetAddress(),
+      addressState: faker.location.state(),
+      addressLGA: faker.location.city(),
       isStudent: false,
       isSchoolStaff: false,
       isPortalAdmin: true,

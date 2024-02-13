@@ -1,8 +1,10 @@
+const { User } = require('../models');
+
 const index = async (req, res) => {
     // return { name: 'kelechi', id: id };
+    const users = await User.findAll();
 
-    console.log(res);
-    res.render('dashboard/users/index');
+    res.render('dashboard/users/index', { users });
 };
 
 const getById = () => {

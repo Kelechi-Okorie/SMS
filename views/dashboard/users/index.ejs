@@ -1,11 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<%- include('../../includes/header') %>
+
     <h2>The users index page</h2>
-</body>
-</html>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.map((user, index)=> { %>
+                <% const { firstName, lastName, userName}=user; %>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>
+                            <%= user.firstName %>
+                        </td>
+                        <td>
+                            <%= lastName %>
+                        </td>
+                        <td>
+                            <%= userName %>
+                        </td>
+                    </tr>
+                    <% }); %>
+        </tbody>
+    </table>
+
+    <p> &#xF57F;</p>
+
+    <i class="bi bi-0-circle"></i>
+
+
+    <%- include('../../includes/footer') %>
