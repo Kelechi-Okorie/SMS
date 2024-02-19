@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/font/bootstrap-icons.min.css" />
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
     <title>Document</title>
 
     <style>
@@ -151,4 +151,16 @@
             <div>
                 <i class="bi bi-list focus-ring" onclick="openNav()"></i>&nbsp; SMS
             </div>
+
+            <div class="dropdown ms-auto">
+                <i class="bi bi-person-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                    style="cursor: pointer"></i>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><%= currentUser.fullName %> sss</a></li>
+                    <li><a class="dropdown-item border-bottom" href="/dashboard/profile">Profile</a></li>
+                    <li><a class="dropdown-item mt-2" href="/auth/sign-out">Sign out</a></li>
+                </ul>
+            </div>
+
         </div>
