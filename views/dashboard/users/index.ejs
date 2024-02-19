@@ -1,38 +1,44 @@
-<%- include('../../includes/header') %>
+<%- include('../../includes/header', {currentUser, users}) %>
 
-    <h2>The users index page</h2>
+    <div class="main-content p-2">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.map((user, index)=> { %>
-                <% const { firstName, lastName, userName}=user; %>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <%= user.firstName %>
-                        </td>
-                        <td>
-                            <%= lastName %>
-                        </td>
-                        <td>
-                            <%= userName %>
-                        </td>
-                    </tr>
-                    <% }); %>
-        </tbody>
-    </table>
+        <h2>The users index page</h2>
 
-    <p> &#xF57F;</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.map((user, index)=> { %>
+                    <% const { id, firstName, lastName, userName}=user; %>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>
+                                <a href="/dashboard/users/<%= id %>">
+                                <%= user.firstName %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= lastName %>
+                            </td>
+                            <td>
+                                <%= userName %>
+                            </td>
+                        </tr>
+                        <% }); %>
+            </tbody>
+        </table>
 
-    <i class="bi bi-0-circle"></i>
+        <p> &#xF57F;</p>
+
+        <i class="bi bi-0-circle"></i>
+
+    </div>
 
 
-    <%- include('../../includes/footer') %>
+    <!-- <%- include('../../includes/footer') %> -->

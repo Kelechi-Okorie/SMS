@@ -1,0 +1,206 @@
+
+<%
+let menu = [
+{
+text: 'Dashboard',
+icon: 'bi bi-speedometer',
+route: '/dashboard'
+}
+];
+
+if (currentUser.isPortalAdmin) {
+const portalAdminMenus = [
+{
+    text: 'Schools',
+    icon: "bi bi-bank",
+    route: '/dashboard/schools',
+    isCurrent: false
+},
+{
+    text: 'Users',
+    icon: "bi bi-person",
+    route: '/dashboard/users',
+    isCurrent: false
+},
+{
+    text: 'Portal Admins',
+    icon: "bi bi-people-fill",
+    route: '/dashboard/portal-admins',
+    isCurrent: false
+},
+{
+    text: 'School Types',
+    icon: "bi bi-bank",
+    route: '/dashboard/school-types',
+    isCurrent: false
+},
+{
+    text: 'Settings',
+    icon: "bi bi-gear",
+    route: '/dashboard/settings',
+    isCurrent: false,
+}
+];
+
+menu = menu.concat(portalAdminMenus);
+
+} else if (currentUser.isSchoolStaff) {
+const schoolStaffMenu = [
+{
+    text: 'Add Scores',
+    icon: "bi bi-123",
+    route: '/dashboard/scores',
+    isCurrent: false
+},
+{
+    text: 'My Classes',
+    icon: "bi bi-archive",
+    route: '/dashboard/my-classes',
+    isCurrent: false
+},
+{
+    text: 'Expense Requests',
+    icon: "bi bi-currency-dollar",
+    route: '/dashboard/expense-requests',
+    isCurrent: false
+},
+{
+    text: 'Notice Board',
+    icon: "bi bi-info-circle",
+    route: '/dashboard/notice-board',
+    isCurrent: false
+},
+{
+    text: 'Sessions',
+    icon: "bi bi-bookmark-check",
+    route: '/dashboard/sessions',
+    isCurrent: false
+},
+{
+    text: 'Classes',
+    icon: "bi bi-book",
+    route: '/dashboard/classes',
+    isCurrent: false
+},
+{
+    text: 'Students',
+    icon: "bi bi-people-fill",
+    route: '/dashboard/students',
+    isCurrent: false
+},
+{
+    text: 'Staff',
+    icon: "bi bi-people-fill",
+    route: '/dashboard/staffs',
+    isCurrent: false
+},
+{
+    text: 'Results',
+    icon: "bi bi-collection",
+    route: '/dashboard/results',
+    isCurrent: false
+},
+{
+    text: 'Finances',
+    icon: "bi bi-currency-exchange",
+    route: '/dashboard/finances',
+    isCurrent: false
+},
+{
+    text: 'Fees',
+    icon: "bi bi-cash-coin",
+    route: '/dashboard/fees',
+    isCurrent: false
+},
+{
+    text: 'Subjects',
+    icon: "bi bi-journal-text",
+    route: '/dashboard/subjects',
+    isCurrent: false
+},
+{
+    text: 'Settings',
+    icon: "bi bi-gear",
+    route: '/dashboard/settings',
+    isCurrent: false,
+},
+{
+    text: 'Finances',
+    icon: "bi bi-cash-coin",
+    route: '/dashboard/finances',
+    isCurrent: false
+},
+{
+    text: 'Fees',
+    icon: "bi bi-cash",
+    route: '/dashboard/fees',
+    isCurrent: false
+}
+
+];
+
+menu = menu.concat(schoolStaffMenu);
+
+} else if (currentUser.isStudent) {
+const studentMenu = [
+{
+    text: 'Results',
+    icon: "bi bi-collection",
+    route: '/dashboard/results',
+    isCurrent: false
+},
+{
+    text: 'Fee Payments',
+    icon: "bi bi-cash",
+    route: '/dashboard/fee-payments',
+    isCurrent: false
+},
+{
+    text: 'Notice Board',
+    icon: "bi bi-info-circle",
+    route: '/dashboard/notice-board',
+    isCurrent: false
+},
+{
+    text: 'Classes',
+    icon: "bi bi-book",
+    route: '/dashboard/classes',
+    isCurrent: false
+}
+];
+
+menu = menu.concat(studentMenu);
+
+}
+
+// const paths = pathname.split('/');
+// if (paths[paths.length - 1] == '') {
+//     paths.pop();
+// }
+
+// let isCurrentMenuItem;
+// if (paths.length === 2) {
+//     isCurrentMenuItem = paths[1];
+// } else {
+//     isCurrentMenuItem = paths[2];
+// }
+
+// for (let index = 0; index < menu.length; index++) {
+//     const item = menu[index].route.slice(menu[index].route.lastIndexOf('/') + 1);
+
+//     if (isCurrentMenuItem === item) {
+//         menu[index].isCurrent = true;
+
+//         break;
+//     }
+// }
+
+%>
+
+
+<% menu.forEach((item, index) => { %>
+    <a href=<%= item.route %> class="no-wrap">
+            <i class="<%= item.icon %>" ></i><span class="ms-3"><%= item.text %></span>
+    </a>
+
+<% }); %>

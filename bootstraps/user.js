@@ -85,10 +85,6 @@ module.exports = (Sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        isParent: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
-        },
         config: {
             type: DataTypes.TEXT,
             get: function () {

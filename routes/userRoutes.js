@@ -15,11 +15,7 @@ const router = express.Router();
 
 router.get('/', index);
 
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-
-    res.send(`This user has the following id ${id}`);
-});
+router.get('/:id', getById);
 
 
 

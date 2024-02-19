@@ -2,13 +2,27 @@ const express = require('express');
 // const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const app = express();
 
 const port = process.env.port || 3005;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({ secret: '4CcPCnVvtBMOAp2nXG/F1LBP8WcmiBKwHw4B5A+KNOupRWugxAu+/A==', resave: true, saveUninitialized: true }));
+
 // routes
+const authRouter = require('./routes/authRoutes');
+const dashboardRouter = require('./routes/dashboardRoutes');
 const userRouter = require('./routes/userRoutes');
+
+
+require('./config/passport')(app);
 
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
@@ -17,10 +31,22 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
-// userRouter.route('/').get(async () => {
+// app.use((req, res, next) => {
+//     console.log(req.body);
 
 // });
 
+const authenticationMiddleWare = (req, res, next) => {
+    if (!req.user) {
+        res.redirect('/auth/sign-in');
+    }
+
+    next();
+}
+
+app.use('/auth', authRouter);
+app.use('/dashboard', authenticationMiddleWare)
+app.use('/dashboard', dashboardRouter);
 app.use('/dashboard/users', userRouter)
 
 app.get('/', async (req, res) => {
@@ -32,14 +58,6 @@ app.get('/tests', async (req, res) => {
     // res.send('testing')
     res.sendFile(path.join(__dirname, 'views', 'tests', 'index.html'));
 });
-
-
-app.get('/dashboard', async (req, res) => {
-    res.send('the dashboard')
-});
-
-
-
 
 app.listen(port, () => {
     console.log(`the app has started on port  ${port}`);

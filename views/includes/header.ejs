@@ -32,21 +32,24 @@
             /* Place content 60px from the top */
             transition: 0.5s;
             /* 0.5 second transition effect to slide in the sidenav */
+
+            border: 1px solid #ddd
         }
 
         /* The navigation menu links */
         .sidenav a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
-            font-size: 25px;
-            /* color: #818181; */
+            /* font-size: 25px; */
+            color: black;
             display: block;
             transition: 0.2s;
         }
 
         /* When you mouse over the navigation links, change their color */
         .sidenav a:hover {
-            color: #f1f1f1;
+            /* color: #f1f1f1; */
+            background-color: #eee;
         }
 
         /* Position and style the close button (top right corner) */
@@ -61,7 +64,22 @@
         /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
         #main {
             transition: margin-left .5s;
-            padding: 20px;
+        }
+
+        .no-wrap {
+            white-space: nowrap;
+        }
+
+        .main-content {
+            background-color: #f8f9f9;
+        }
+
+        #header {
+            max-height: 60px;
+            min-height: 60px;
+            color: white;
+
+            background-color: blue;
         }
 
         /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -78,6 +96,16 @@
 
     <script>
         /* Set the width of the side navigation to 250px */
+
+        window.onload = (event) => {
+            const mediaQuery = window.matchMedia('(min-width: 600px)');
+            if (mediaQuery.matches) {
+                document.getElementById("mySidenav").style.width = "250px";
+                document.getElementById("main").style.marginLeft = "250px";
+
+            }
+        }
+
         function openNav() {
             const mediaQuery = window.matchMedia('(min-width: 600px)');
             document.getElementById("mySidenav").style.width = "250px";
@@ -107,17 +135,20 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
-    </div>
 
-    <!-- Use any element to open the sidenav -->
-    <span onclick="openNav()">open</span>
+        <div>
+            <%- include('nav', { currentUser }) %>
+        </div>
+
+    </div>
 
     <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
     <!-- <div id="main">
         ...sdfgsdgsgsgsg
     </div> -->
     <div id="main">
+        <div id="header" class="bg-primary d-flex align-items-center p-2">
+            <div>
+                <i class="bi bi-list focus-ring" onclick="openNav()"></i>&nbsp; SMS
+            </div>
+        </div>
