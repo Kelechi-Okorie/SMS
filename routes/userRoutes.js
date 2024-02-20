@@ -14,7 +14,6 @@ const router = express.Router();
 // });
 
 router.get('/', index);
-
 router.get('/:id', getById);
 
 
