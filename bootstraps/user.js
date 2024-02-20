@@ -45,15 +45,10 @@ module.exports = (Sequelize) => {
             type: DataTypes.DATE,
             defaultValue: new Date()
         },
-        addressStreet: {
+        address: {
             type: DataTypes.STRING(191)
         },
-        addressLGA: {
-            type: DataTypes.STRING(191)
-        },
-        addressState: {
-            type: DataTypes.STRING(191)
-        },
+
         lastLoginAt: {
             type: DataTypes.BOOLEAN
         },
@@ -69,9 +64,6 @@ module.exports = (Sequelize) => {
         },
         disabledAt: {
             type: DataTypes.DATE
-        },
-        imagePath: {
-            type: DataTypes.STRING
         },
         isStudent: {
             type: DataTypes.BOOLEAN,

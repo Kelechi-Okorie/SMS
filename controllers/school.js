@@ -12,9 +12,9 @@ const auth = async (currentUser) => {
 const index = async (req, res) => {
     let currentUser = req.user;
 
-    if(!currentUser) {
-        res.redirect('/auth/sign-in');
-    }
+    // if(!currentUser) {
+    //     res.redirect('/auth/sign-in');
+    // }
     currentUser = await User.findByPk(currentUser.id);
     const schools = await School.findAll();
 
@@ -26,9 +26,9 @@ const getById = async (req, res) => {
 
     let currentUser = req.user;
 
-    if(!currentUser) {
-        res.redirect('/auth/sign-in');
-    }
+    // if(!currentUser) {
+    //     res.redirect('/auth/sign-in');
+    // }
     currentUser = await User.findByPk(currentUser.id);
 
     if(!id) {
@@ -37,24 +37,23 @@ const getById = async (req, res) => {
 
     const school = await School.findByPk(id);
     
-    res.render('dashboard/users/user-details', { currentUser, school });
+    res.render('dashboard/schools/school-details', { currentUser, school });
 };
 
 const newSchool = async (req, res) => {
     let currentUser = req.user;
 
-    if(!currentUser) {
-        res.redirect('/auth/sign-in');
-    }
+    // if(!currentUser) {
+    //     res.redirect('/auth/sign-in');
+    // }
     currentUser = await User.findByPk(currentUser.id);
-    const schools = await School.findAll();
-    const schoolType = await SchoolType.findAll()
+    const schoolTypes = await SchoolType.findAll()
 
-    res.render('dashboard/schools/new', { currentUser, schools });
+    res.render('dashboard/schools/new', { currentUser, schoolTypes });
 };
 
 
-const schoolController = { index, getById };
+const schoolController = { index, getById, newSchool };
 
 
 module.exports = schoolController;

@@ -11,10 +11,6 @@ module.exports = (Sequelize) => {
         uid: {
             type: DataTypes.STRING(191),
         },
-        // campusId: {
-        //     type: Sequelize.INTEGER,
-        //     references: { model: 'campuses', key: 'id' }
-        // },
         schoolTypeId: {
             type: Sequelize.INTEGER,
             references: { model: 'SchoolTypes', key: 'id' }
@@ -22,14 +18,11 @@ module.exports = (Sequelize) => {
         name: {
             type: DataTypes.TEXT
         },
-        officialPhone: {
+        phone: {
             type: DataTypes.STRING(191)
         },
-        addressEmail: {
+        email: {
             type: DataTypes.STRING(191)
-        },
-        imagePath: {
-            type: DataTypes.STRING
         },
         isDisabled: {
             type: DataTypes.BOOLEAN,

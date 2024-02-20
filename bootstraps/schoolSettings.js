@@ -21,10 +21,6 @@ module.exports = (Sequelize) => {
           return this.setDataValue("settings", JSON.stringify(value));
         }
       },
-      credits: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-      },
       createdAt: {
         type: DataTypes.DATE,
         set(value) {
