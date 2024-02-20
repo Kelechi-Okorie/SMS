@@ -1,5 +1,125 @@
 <%- include('../../includes/header', { currentUser}) %>
 
+    <div class="mb-3 d-flex">
+        <h2>New school</h2>
+    </div>
+
+    <div class="card p-3 mx-auto d-none" style="max-width: 500px" id="success-div">
+        <h3 class="text-center mb-3">Successfully created</h3>
+        <div class="fs-1 text-center text-success mb-3">
+            <i class="bi bi-check-circle"></i>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn">
+                <a class="" href="/dashboard/schools">View all schools</a>
+            </button>
+        </div>
+    </div>
 
 
-<%- include('../../includes/footer', { currentUser}) %>
+
+    <div class="card p-3 mx-auto" style="max-width: 500px" id="form-div">
+
+        <form action="/api/schools/new" method="POST">
+            <input id="numClasses" type="hidden" value="0" />
+
+            <select class="form-select mb-3" aria-label="Default select example" name="schoolTypeId">
+                <option selected disabled>Select school type ...</option>
+                <% schoolTypes.forEach((type, index) => { %>
+                    <% const { name, id } = type  %>
+                    <option value=<%= id %>><%= name %></option>
+                <% }); %>
+            </select>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Adress</label>
+                <input type="text" class="form-control" id="address" name="address">
+            </div>
+
+
+            <div class="mb-3 d-flex justify-content-end">
+                <button class="btn btn-danger" id="submit-btn" type="submit">
+                    <span id="submit-spinner" class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+                    submit
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        const submitForm = (formData) => {
+            const response = fetch('/api/schools/new', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            return response;
+        };
+
+
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async (evt) => {
+            evt.preventDefault();
+            const submitBtn = document.querySelector('#submit-btn');
+            const submitSpinner = document.querySelector('#submit-spinner');
+
+            const form = evt.srcElement;
+            const select = document.querySelector('select');
+            const option = select.options[select.selectedIndex];
+            const schoolTypeId = option.value;
+            const name = form.name.value;
+            const phone = form.phone.value;
+            const email = form.email.value;
+            const address = form.address.value;
+
+            submitBtn.setAttribute('disabled', true);
+            submitSpinner.classList.remove('d-none');
+
+            const payload = {schoolTypeId, name, phone, email, address};
+            const response = await submitForm(payload);
+            const data = await response.json();
+            console.log(data);
+
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+            submitBtn.removeAttribute('disabled');
+            submitSpinner.classList.add('d-none');
+
+            if (data.success) {
+                const formDiv = document.querySelector('#form-div');
+                const successDiv = document.querySelector('#success-div');
+
+                formDiv.classList.add('d-none');
+                successDiv.classList.remove('d-none');
+            }
+
+        });
+    </script>
+
+
+    <%- include('../../includes/footer', { currentUser}) %>

@@ -4,7 +4,7 @@
         <h2>New school type</h2>
     </div>
 
-    <div class="card p-3 mx-auto" style="max-width: 500px" id="success-div">
+    <div class="card p-3 mx-auto d-none" style="max-width: 500px" id="success-div">
         <h3 class="text-center mb-3">Successfully created</h3>
         <div class="fs-1 text-center text-success mb-3">
             <i class="bi bi-check-circle"></i>
@@ -12,7 +12,7 @@
 
         <div class="d-flex justify-content-end">
             <button class="btn">
-                <a class="" href="/dashboard/school-types">View all classes</a>
+                <a class="" href="/dashboard/school-types">View all school types</a>
             </button>
         </div>
     </div>
@@ -79,7 +79,9 @@
 
             label.textContent = name;
             label.setAttribute('for', name);
-            input.setAttribute('name', name)
+            input.setAttribute('name', name);
+
+            input.focus();
 
             classList.appendChild(clone);
 

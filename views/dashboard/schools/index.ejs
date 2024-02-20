@@ -14,7 +14,6 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">FullName</th>
                     <th scope="col">Type</th>
                     <th scope="col">Address</th>
                     <th scope="col">Phone</th>
@@ -23,7 +22,7 @@
             </thead>
             <tbody>
                 <% schools.map((school, index)=> { %>
-                    <% const { id, name, fullName, type, address, phone, email}=school; %>
+                    <% const { id, name, type, address, phone, email}=school; %>
                         <tr>
                             <th scope="row"><%= index + 1 %></th>
                             <td>
@@ -31,20 +30,18 @@
                                 <%= name %>
                                 </a>
                             </td>
+                            <td>type</td>
                             <td>
-                                <%= fullName %>
+                                <%= address %>
                             </td>
+                            <td>
+                                <%= phone %>
+                            </td>
+                            <td>
+                                <%= email %>
+                            </td>
+                            <% }); %>
                         </tr>
-                        <td>
-                            <%= address %>
-                        </td>
-                        <td>
-                            <%= phone %>
-                        </td>
-                        <td>
-                            <%= email %>
-                        </td>
-                        <% }); %>
             </tbody>
         </table>
     </div>

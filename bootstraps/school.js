@@ -24,6 +24,9 @@ module.exports = (Sequelize) => {
         email: {
             type: DataTypes.STRING(191)
         },
+        address: {
+            type: DataTypes.STRING(191)
+        },
         isDisabled: {
             type: DataTypes.BOOLEAN,
             defaultValue: false

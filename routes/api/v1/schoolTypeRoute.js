@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { createNewSchoolType } = require('../../controllers/schoolType');
+const { createNewSchoolType } = require('../../../controllers/schoolType');
 
 const router = express.Router();
 
