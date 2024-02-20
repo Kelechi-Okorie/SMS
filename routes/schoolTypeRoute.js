@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {index, newSchoolType } = require('../controllers/schoolType');
+const {index, getById, newSchoolType } = require('../controllers/schoolType');
 
 const router = express.Router();
 
@@ -15,6 +15,7 @@ const router = express.Router();
 
 router.get('/', index);
 router.get('/new', newSchoolType);
+router.get('/:id', getById);
 // router.post('/new', createNewSchoolType)
 
 

@@ -38,7 +38,6 @@ const getById = async (req, res) => {
 
     const school = await School.findByPk(id, {include: [{model: SchoolType}]});
 
-    console.log(school)
 
     res.render('dashboard/schools/school-details', { currentUser, school });
 };
@@ -51,7 +50,6 @@ const newSchool = async (req, res) => {
     // }
     currentUser = await User.findByPk(currentUser.id);
     const schoolTypes = await SchoolType.findAll();
-    console.log(schoolTypes)
 
     res.render('dashboard/schools/new', { currentUser, schoolTypes });
 };

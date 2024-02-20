@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {index, getById} = require('../controllers/user');
+const {index, newUser, getById} = require('../controllers/user');
 
 const router = express.Router();
 
@@ -14,6 +14,7 @@ const router = express.Router();
 // });
 
 router.get('/', index);
+router.get('/new', newUser);
 router.get('/:id', getById);
 
 

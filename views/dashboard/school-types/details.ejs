@@ -1,0 +1,42 @@
+<%- include('../../includes/header', { currentUser}) %>
+
+    <div class="main-content p-3">
+
+        <% const {id, name, SchoolClasses}=schoolType %>
+
+            <div class="mb-3 d-flex">
+                <h2>School Type</h2>
+            </div>
+
+            <div>
+                <div class="card mb-5">
+                    <h5 class="card-header">
+                        <%= schoolType.name %>
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Name</h5>
+                        <p class="card-text">
+                            <%= name %>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Classes</h3>
+                </div>
+
+                <% SchoolClasses.map((element, index) => { %>
+                    <% const {name} = element; %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Name</h5>
+                            <p class="card-text">
+                                <%= name %>
+                            </p>
+
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+    </div>
+    <%- include('../../includes/footer', { currentUser}) %>

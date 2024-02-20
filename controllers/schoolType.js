@@ -39,6 +39,27 @@ const newSchoolType = async (req, res) => {
     res.render('dashboard/school-types/new', { currentUser });
 };
 
+const getById = async (req, res) => {
+    const { id } = req.params;
+
+    let currentUser = req.user;
+
+    // if(!currentUser) {
+    //     res.redirect('/auth/sign-in');
+    // }
+    currentUser = await User.findByPk(currentUser.id);
+
+    if (!id) {
+        res.redirect('/dashboard/schools')
+    }
+
+    const schoolType = await SchoolType.findByPk(id, {include: [{model: SchoolClass}]});
+
+
+    res.render('dashboard/school-types/details', { currentUser, schoolType });
+};
+
+
 const createNewSchoolType = async (req, res) => {
     // let currentUser = req.user;
     // console.log(req.user, '----------------------')
@@ -89,7 +110,7 @@ const createNewSchoolType = async (req, res) => {
 };
 
 
-const schoolTypeController = { index, newSchoolType, createNewSchoolType };
+const schoolTypeController = { index, newSchoolType, getById, createNewSchoolType };
 
 
 module.exports = schoolTypeController;
