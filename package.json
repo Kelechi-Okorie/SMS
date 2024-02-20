@@ -23,7 +23,8 @@
     "mysql2": "^3.9.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.36.0"
+    "sequelize": "^6.36.0",
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.3",

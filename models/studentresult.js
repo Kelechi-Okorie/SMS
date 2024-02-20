@@ -14,6 +14,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.School);
+      this.belongsTo(models.Session);
+      this.belongsTo(models.Term);
+      this.belongsTo(models.StudentClass);
+      this.belongsTo(models.Student);
+      this.hasMany(models.SubjectLineItem);
+      this.belongsTo(models.SchoolClass);
+
+      this.belongsTo(models.Demarcation);
     }
   }
   StudentResult.init(studentResultAttributes, {

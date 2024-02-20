@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/font/bootstrap-icons.min.css" />
     <script src="/js/bootstrap.bundle.min.js"></script>
+
     <title>Document</title>
 
     <style>
@@ -92,6 +93,19 @@
                 font-size: 18px;
             }
         }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .rotate-icon {
+            animation: rotate 2s infinite linear; /* Adjust the duration and other properties as needed */
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
     </style>
 
     <script>
@@ -149,7 +163,7 @@
     <div id="main">
         <div id="header" class="bg-primary d-flex align-items-center p-2">
             <div>
-                <i class="bi bi-list focus-ring" onclick="openNav()"></i>&nbsp; SMS
+                <i class="bi bi-list focus-ring rotate" onclick="openNav()"></i>&nbsp; SMS
             </div>
 
             <div class="dropdown ms-auto">
@@ -164,3 +178,5 @@
             </div>
 
         </div>
+
+        <div class="main-content p-2" style="min-height: calc(100vh - 60px);">

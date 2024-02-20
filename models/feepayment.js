@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.School);
+      this.belongsTo(models.Student);
+      this.belongsTo(models.Fee);
+      this.belongsTo(models.StudentClass);
+      this.belongsTo(models.Session);
+      this.belongsTo(models.Term);
+
+      this.belongsTo(models.SchoolStaff, { foreignKey: 'processedBy' });
     }
   }
   FeePayment.init(feePaymentAttributes, {

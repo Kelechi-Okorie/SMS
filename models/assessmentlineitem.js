@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Assessment);
+      this.belongsTo(models.SubjectLineItem);
+
     }
   }
   AssessmentLineItem.init(assessmentLineItemAttributes, {

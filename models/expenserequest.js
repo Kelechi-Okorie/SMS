@@ -6,7 +6,7 @@ const {
 const expenseRequestAttributes = require('../bootstraps/expenseRequest')(Sequelize);
 
 module.exports = (sequelize, DataTypes) => {
-  class ExpenseRequeat extends Model {
+  class ExpenseRequest extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,11 +14,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.School);
+
+      this.belongsTo(models.SchoolStaff, { foreignKey: 'requestedBy', as: 'requestingStaff'});
+      this.belongsTo(models.SchoolStaff, { foreignKey: 'approvedBy', as: 'approvingStaff'});
+      this.belongsTo(models.SchoolStaff, { foreignKey: 'rejectedBy', as: 'rejectingStaff'});
     }
   }
-  ExpenseRequeat.init(expenseRequestAttributes, {
+  ExpenseRequest.init(expenseRequestAttributes, {
     sequelize,
-    modelName: 'ExpenseRequeat',
+    modelName: 'ExpenseRequest',
   });
-  return ExpenseRequeat;
+  return ExpenseRequest;
 };

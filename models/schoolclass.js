@@ -14,11 +14,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.SchoolType);
+
+      this.hasMany(models.StudentClass);
+      this.hasMany(models.StudentResult);
+
+      this.hasMany(models.Fee);
+
     }
   }
   SchoolClass.init(schoolClassAttributes, {
     sequelize,
     modelName: 'SchoolClass',
+    timestamps: false
   });
   return SchoolClass;
 };

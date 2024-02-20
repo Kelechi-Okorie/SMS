@@ -14,6 +14,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.SchoolType);
+
+      this.hasMany(models.SchoolStaff, { foreignKey: 'schoolId', as: 'staff' });
+      this.hasMany(models.Student);
+
+      this.hasMany(models.User, { foreignKey: 'schoolId', as: 'user' })
+
+      this.hasMany(models.Session);
+
+      this.hasMany(models.Subject);
+
+      this.hasMany(models.Assessment);
+
+      this.hasMany(models.Grade);
+
+      this.hasMany(models.StudentClass);
+      this.hasMany(models.StudentResult);
+
+      this.hasOne(models.SchoolSetting);
+
+
+      this.hasMany(models.Fee);
+      this.hasMany(models.FeePayment);
+
+      this.hasMany(models.ExpenseRequest);
+
+      this.hasMany(models.Attendance);
+
+      this.hasMany(models.Comment);
     }
   }
   School.init(schoolAttributes, {

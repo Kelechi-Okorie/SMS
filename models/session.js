@@ -14,6 +14,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.School);
+
+      this.hasMany(models.Term);
+
+      this.hasMany(models.StudentClass);
+
+      this.hasMany(models.StudentResult);
+
+      this.hasMany(models.Student, { foreignKey: 'graduationSessionId', as: 'graduatingStudents' });
+
+      this.hasMany(models.Fee);
+      this.hasMany(models.FeePayment);
+
+      this.hasMany(models.Attendance);
     }
   }
   Session.init(sessionAttributes, {

@@ -1,0 +1,128 @@
+<%- include('../../includes/header', { currentUser}) %>
+
+    <div class="mb-3 d-flex">
+        <h2>New school type</h2>
+    </div>
+
+
+    <div class="card p-3 mx-auto" style="max-width: 500px">
+
+        <form action="/api/school-types/new" method="POST">
+            <input id="numClasses" type="hidden" value="0" />
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+
+            <div class="mb-3" id="class-list">
+
+            </div>
+
+
+            <div>
+                <span class="input-group-text" id="add-class" style="cursor: pointer">
+                    <i class="bi bi-plus-lg"></i>
+                </span>
+
+            </div>
+
+            <div class="mb-3 d-flex justify-content-end">
+                <button class="btn btn-danger" id="submit-btn" type="submit" >
+                    <span id="submit-spinner" class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+                    submit
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <template id="class-row">
+        <div class="mb-3">
+            <label for="" class="form-label"></label>
+            <input type="text" class="form-control class-row" name="">
+        </div>
+    </template>
+
+
+    <script>
+        let classNum = 0;
+
+        const addClassBtn = document.querySelector("#add-class");
+
+        addClassBtn.addEventListener('click', (evt) => {
+            // Instantiate the table with the existing HTML tbody
+            // and the row with the template
+            let classList = document.querySelector('#class-list');
+            let template = document.querySelector("#class-row");
+
+            // Clone the new row and insert it into the table
+
+            let clone = template.content.cloneNode(true);
+            let label = clone.querySelector("label");
+            let input = clone.querySelector("input");
+
+            const name = `class${++classNum}`
+
+            label.textContent = name;
+            label.setAttribute('for', name);
+            input.setAttribute('name', name)
+
+            classList.appendChild(clone);
+
+            const numClassesInput = document.querySelector('#numClasses');
+
+            numClasses.value = classNum;
+        });
+
+        const submitForm = (formData) => {
+            const response = fetch('/api/school-types/new', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            return response;
+        };
+
+
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async (evt) => {
+            evt.preventDefault();
+            const submitBtn = document.querySelector('#submit-btn');
+            const submitSpinner = document.querySelector('#submit-spinner');
+            
+            submitBtn.setAttribute('disabled', true);
+            submitSpinner.classList.remove('d-none');
+
+            const form = evt.srcElement;
+            const name = form.name.value;
+
+            let classes = form.querySelectorAll('.class-row');
+            classes = Array.from(classes);
+            classes = classes.map((element, index) => {
+                return element.value;
+            });
+
+            const payload = { name, classes };
+            const response = await submitForm(payload);
+            const data = await response.json();
+            console.log(data);
+
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+            submitBtn.removeAttribute('disabled');
+            submitSpinner.classList.add('d-none');
+
+        })
+    </script>
+
+
+    <%- include('../../includes/footer') %>

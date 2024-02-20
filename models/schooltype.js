@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.SchoolClass);
+      this.hasMany(models.School);
     }
   }
   SchoolType.init({

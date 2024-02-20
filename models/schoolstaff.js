@@ -14,6 +14,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.User, { foreignKey: 'userId' });
+
+      this.hasMany(models.SchoolStaff, { foreignKey: 'disabledBy', as: 'disabledStaff' });
+      this.belongsTo(models.SchoolStaff, { foreignKey: 'disabledBy', as: 'disablingStaff' });
+
+      this.belongsTo(models.School, { foreignKey: 'schoolId', as: 'school' });
+
+      this.belongsToMany(models.Subject, { through: models.StaffSubjectJunctionTable });
+
+      this.hasMany(models.SubjectLineItem);
+
+      this.hasMany(models.StudentClass, { foreignKey: 'managerId', as: 'managedClass' });
+
+      this.hasMany(models.Student, { foreignKey: 'disabledBy', as: 'disabledStudent' });
+
+      this.hasMany(models.FeePayment, { foreignKey: 'processedBy' });
+
+      this.hasMany(models.ExpenseRequest, { foreignKey: 'requestedBy', as: 'requestingStaff'});
+      this.hasMany(models.ExpenseRequest, { foreignKey: 'approvedBy', as: 'approvingStaff'});
+      this.hasMany(models.ExpenseRequest, { foreignKey: 'rejectedBy', as: 'rejectingStaff'});
+      
+      this.hasMany(models.Attendance, { foreignKey: 'takenBy'});
+
+
+      this.hasMany(models.Comment);
     }
   }
   SchoolStaff.init(schoolStaffAttributes, {

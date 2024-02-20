@@ -20,6 +20,9 @@ app.use(session({ secret: '4CcPCnVvtBMOAp2nXG/F1LBP8WcmiBKwHw4B5A+KNOupRWugxAu+/
 const authRouter = require('./routes/authRoutes');
 const dashboardRouter = require('./routes/dashboardRoutes');
 const userRouter = require('./routes/userRoutes');
+const schoolRouter = require('./routes/schoolRoute');
+const schoolTypeRouter = require('./routes/schoolTypeRoute');
+const schoolTypeRouterApi = require('./routes/api/schoolTypeRoute');
 
 
 require('./config/passport')(app);
@@ -31,10 +34,11 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
-// app.use((req, res, next) => {
-//     console.log(req.body);
+// app.use((req, res, next) => {     
+//     console.log(re  q.body);   
+             
 
-// });
+// });  
 
 const authenticationMiddleWare = (req, res, next) => {
     if (!req.user) {
@@ -45,9 +49,12 @@ const authenticationMiddleWare = (req, res, next) => {
 }
 
 app.use('/auth', authRouter);
-app.use('/dashboard', authenticationMiddleWare)
+app.use('/dashboard', authenticationMiddleWare);
 app.use('/dashboard', dashboardRouter);
-app.use('/dashboard/users', userRouter)
+app.use('/dashboard/users', userRouter);
+app.use('/dashboard/schools', schoolRouter);
+app.use('/dashboard/school-types', schoolTypeRouter);
+app.use('/api/school-types', schoolTypeRouterApi);
 
 app.get('/', async (req, res) => {
     res.render('index')
