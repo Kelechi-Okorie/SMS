@@ -37,6 +37,14 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+db.School.addScope('defaultScope', {
+  include: [
+    {
+      model: db.SchoolType
+    }
+  ]
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

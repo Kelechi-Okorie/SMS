@@ -36,7 +36,9 @@ const getById = async (req, res) => {
         res.redirect('/dashboard/schools')
     }
 
-    const school = await School.findByPk(id);
+    const school = await School.findByPk(id, {include: [{model: SchoolType}]});
+
+    console.log(school)
 
     res.render('dashboard/schools/school-details', { currentUser, school });
 };
