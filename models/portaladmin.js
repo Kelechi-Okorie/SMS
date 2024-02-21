@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   PortalAdmin.init(portalAdminAttributes, {
     sequelize,
     modelName: 'PortalAdmin',
+    timestamps: false
   });
   return PortalAdmin;
 };

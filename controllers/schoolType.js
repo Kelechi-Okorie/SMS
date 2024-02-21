@@ -18,9 +18,9 @@ const remapClasses = (data) => {
 const index = async (req, res) => {
     let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
     const schoolTypes = await SchoolType.findAll();
     res.render('dashboard/school-types/index', { currentUser, schoolTypes });
@@ -29,9 +29,9 @@ const index = async (req, res) => {
 const newSchoolType = async (req, res) => {
     let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
 
     const _res = {status: 201, success: true};
@@ -44,9 +44,9 @@ const getById = async (req, res) => {
 
     let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
 
     if (!id) {
@@ -61,13 +61,12 @@ const getById = async (req, res) => {
 
 
 const createNewSchoolType = async (req, res) => {
-    // let currentUser = req.user;
-    // console.log(req.user, '----------------------')
+    let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
-    // currentUser = await User.findByPk(currentUser.id);
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
+    currentUser = await User.findByPk(currentUser.id);
 
     const { name, classes } = req.body;
 

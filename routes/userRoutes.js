@@ -17,7 +17,4 @@ router.get('/', index);
 router.get('/new', newUser);
 router.get('/:id', getById);
 
-
-
-
 module.exports = router;

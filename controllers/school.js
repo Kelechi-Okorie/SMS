@@ -13,9 +13,9 @@ const auth = async (currentUser) => {
 const index = async (req, res) => {
     let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
     const schools = await School.findAll();
 
@@ -27,9 +27,9 @@ const getById = async (req, res) => {
 
     let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
 
     if (!id) {
@@ -45,9 +45,9 @@ const getById = async (req, res) => {
 const newSchool = async (req, res) => {
     let currentUser = req.user;
 
-    // if(!currentUser) {
-    //     res.redirect('/auth/sign-in');
-    // }
+    if(!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
     const schoolTypes = await SchoolType.findAll();
 

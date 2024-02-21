@@ -12,7 +12,7 @@
 
         <div class="d-flex justify-content-end">
             <button class="btn">
-                <a class="" href="/dashboard/schools">View all schools</a>
+                <a class="" href="/dashboard/users">View all Users</a>
             </button>
         </div>
     </div>
@@ -21,29 +21,64 @@
 
     <div class="card p-3 mx-auto" style="max-width: 500px" id="form-div">
 
-        <form action="/api/schools/new" method="POST">
+        <form action="/api/users/new" method="POST">
             <input id="numClasses" type="hidden" value="0" />
 
 
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username">
+            </div>
+
+            <div class="mb-3">
+                <label for="firstname" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="firstname">
+            </div>
+            <div class="mb-3">
+                <label for="middlename" class="form-label">Niddle Name</label>
+                <input type="text" class="form-control" name="middlename">
+            </div>
+            <div class="mb-3">
+                <label for="lastname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="lastname">
             </div>
 
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" id="phone" name="phone">
+                <input type="tel" class="form-control" name="phone">
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label">Adress</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <input type="email" class="form-control" name="email">
             </div>
 
+            <div class="mb-3">
+                <label for="dob" class="form-label">DOB</label>
+                <input type="date" class="form-control" name="dob">
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" name="address">
+            </div>
+
+            <hr class="mb-3" />
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" checked value="isSchoolStaff">
+                <label class="form-check-label" for="type">
+                    School Staff
+                </label>
+            </div>
+
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" value="isPortalAdmin">
+                <label class="form-check-label" for="type">
+                    Admin
+                </label>
+            </div>
 
             <div class="mb-3 d-flex justify-content-end">
                 <button class="btn btn-danger" id="submit-btn" type="submit">
@@ -57,7 +92,7 @@
 
     <script>
         const submitForm = (formData) => {
-            const response = fetch('/api/schools/new', {
+            const response = fetch('/api/users/new', {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -78,18 +113,21 @@
             const submitSpinner = document.querySelector('#submit-spinner');
 
             const form = evt.srcElement;
-            const select = document.querySelector('select');
-            const option = select.options[select.selectedIndex];
-            const schoolTypeId = option.value;
-            const name = form.name.value;
+            const username= form.username.value;
+            const firstname = form.firstname.value;
+            const middlename= form.middlename.value;
+            const lastname= form.lastname.value;
+            const dob= form.dob.value;
             const phone = form.phone.value;
-            const email = form.email.value;
             const address = form.address.value;
+            const type = form.type.value;
+
+            console.log({username, firstname, middlename, lastname, dob, phone, address, type});
 
             submitBtn.setAttribute('disabled', true);
             submitSpinner.classList.remove('d-none');
 
-            const payload = {schoolTypeId, name, phone, email, address};
+            const payload = {username, firstname, middlename, lastname, dob, phone, address, type};
             const response = await submitForm(payload);
             const data = await response.json();
             console.log(data);
