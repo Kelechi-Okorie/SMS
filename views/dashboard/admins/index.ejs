@@ -1,0 +1,44 @@
+<%- include('../../includes/header', {currentUser}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2>Users</h2>
+            <div class="ms-auto">
+                <a type="button" class="btn btn-primary" href="/dashboard/users/new"><i class="bi bi-plus-lg"></i>New</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% adminUsers.map((user, index)=> { %>
+                    <% const { id, firstName, lastName, userName}=user; %>
+                        <tr>
+                            <th scope="row"><%= index + 1 %></th>
+                            <td>
+                                <a href="/dashboard/admins/<%= id %>">
+                                <%= user.firstName %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= lastName %>
+                            </td>
+                            <td>
+                                <%= userName %>
+                            </td>
+                        </tr>
+                        <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+<%- include('../../includes/footer') %>

@@ -1,0 +1,53 @@
+<%- include('../../includes/header', { currentUser}) %>
+
+    <div class="main-content p-3">
+
+        <% const {id, userName, firstName, lastName, middleName, fullName, dob, phone, address}=adminUser %>
+
+            <div class="mb-3 d-flex">
+                <h2>User</h2>
+            </div>
+
+            <div>
+                <div class="card mb-3">
+                    <h5 class="card-header">
+                        <%= fullName %>
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title">First Name</h5>
+                        <p class="card-text">
+                            <%= firstName %>
+                        </p>
+                        <h5 class="card-title">Middle Name</h5>
+                        <p class="card-text">
+                            <%= middleName%>
+                        </p>
+                        <h5 class="card-title">Last Name</h5>
+                        <p class="card-text">
+                            <%= lastName %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Phone</h5>
+                        <p class="card-text">
+                            <%= phone %>
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Address</h5>
+                        <p class="card-text">
+                            <%= address %>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    <%- include('../../includes/footer', { currentUser}) %>
