@@ -29,7 +29,7 @@
             /* Black*/
             overflow-x: hidden;
             /* Disable horizontal scroll */
-            padding-top: 60px;
+            /* padding-top: 60px; */
             /* Place content 60px from the top */
             transition: 0.5s;
             /* 0.5 second transition effect to slide in the sidenav */
@@ -54,12 +54,29 @@
         }
 
         /* Position and style the close button (top right corner) */
-        .sidenav .closebtn {
+        /* .sidenav .closebtn {
             position: absolute;
             top: 0;
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
+        } */
+
+        div#close-btn-div {
+            min-height: 60px;
+            max-height: 60px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 32px;
+        }
+
+        div#close-btn-div button {
+            color: rgb(245, 124, 124);
+            border: 1px solid rgb(245, 124, 124);
+            border-radius: 16px;
+            padding: 7px 12px;
+            background-color: white;
         }
 
         /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -148,7 +165,10 @@
     </header> -->
 
     <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+        <div id="close-btn-div">
+            <button type="button" class="btn-outline-danger" onclick="closeNav()"><i class="bi bi-arrow-left"></i></button>
+        </div>
 
         <div>
             <%- include('nav', { currentUser }) %>
