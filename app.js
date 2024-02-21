@@ -23,6 +23,7 @@ const userRouter = require('./routes/userRoutes');
 const AdminRouter = require('./routes/adminRoutes');
 const schoolRouter = require('./routes/schoolRoute');
 const schoolTypeRouter = require('./routes/schoolTypeRoute');
+const settingsRouter = require('./routes/settingsRoutes');
 const schoolTypeRouterApi = require('./routes/api/v1/schoolTypeRoute');
 const schoolRouterApi = require('./routes/api/v1/schoolRoute');
 const userRouterApi = require('./routes/api/v1/userRoute');
@@ -58,6 +59,7 @@ app.use('/dashboard/users', userRouter);
 app.use('/dashboard/admins', AdminRouter)
 app.use('/dashboard/schools', schoolRouter);
 app.use('/dashboard/school-types', schoolTypeRouter);
+app.use('/dashboard/settings', settingsRouter);
 app.use('/api/school-types', schoolTypeRouterApi);
 app.use('/api/schools', schoolRouterApi);
 app.use('/api/users', userRouterApi);
