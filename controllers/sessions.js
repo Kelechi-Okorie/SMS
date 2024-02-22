@@ -1,4 +1,4 @@
-const { sequelize, User, School, Session } = require('../models');
+const { sequelize, User, School, Session, Term } = require('../models');
 
 const index = async (req, res) => {
     let currentUser = req.user;
@@ -15,9 +15,10 @@ const newSesion = async (req, res) => {
     let currentUser = req.user;
 
     currentUser = await User.findByPk(currentUser.id);
-    const school = currentUser.getSchool();
+    const school = await currentUser.getSchool();
+    const sessions = await school.getSessions();
 
-    res.render('dashboard/users/new', { currentUser });
+    res.render('dashboard/sessions/new', { currentUser, school, sessions });
 };
 
 const getById = async (req, res) => {
@@ -34,54 +35,70 @@ const getById = async (req, res) => {
 const createNew = async (req, res) => {
     const _res = {};
 
-    const { username, firstname, middlename, lastname, dob, phone, type, address } = req.body;
-
-    const isType = (dbType, formType) => {
-        if (dbType == formType) {
-            return true
-        }
-    }
+    const { name } = req.body;
+    let currentUser = req.user;
+    currentUser = await User.findByPk(currentUser.id);
+    const school = await currentUser.getSchool();
 
     try { // http: 201
 
         const result = await sequelize.transaction(async (t) => {
 
-            const [user, isNewUser] = await User.findOrCreate({
+            const schoolSessions = await school.getSessions({ transaction: t });
+
+            const isFirstSession = schoolSessions.length > 0 ? false : true;
+
+            const [schoolSession, isNewSchoolSession] = await Session.findOrCreate({
                 where: {
-                    userName: username
+                    schoolId: school.id,
+                    name: name
                 },
                 defaults: {
-                    firstName: firstname,
-                    lastName: lastname,
-                    middleName: middlename,
-                    dob: dob,
-                    userName: username,
-                    phone: phone,
-                    address: address,
-                    password: username,
-                    isPortalAdmin: isType('isPortalAdmin', type),
-                    isSchoolStaff: isType('isSchoolStaff', type)
+                    isCurrentSession: isFirstSession,
+                    isStarted: isFirstSession,
+                    startDate: isFirstSession ? new Date() : null
                 },
                 transaction: t
             });
 
-            if (isNewUser && isType('isPortalAdmin', type)) {
-                await user.createPortalAdmin({}, { transaction: t });
+
+            if (isNewSchoolSession) {
+                await schoolSession.setSchool(school, { transaction: t });
+
+                await Term.bulkCreate([
+                    {
+                        sessionId: schoolSession.id,
+                        name: 'First',
+                        termNumber: 1,
+                        isStarted: isFirstSession,
+                        startDate: new Date(),
+                        isCurrentTerm: isFirstSession
+                    },
+                    {
+                        sessionId: schoolSession.id,
+                        name: 'Second',
+                        termNumber: 2
+                    },
+                    {
+                        sessionId: schoolSession.id,
+                        name: 'Third',
+                        termNumber: 3
+                    }
+                ],
+                    { transaction: t }
+                );
             }
 
+            await schoolSession.reload({ transaction: t });
+
             const data = {
-                user
-            };
+                schoolSession,
+            }
 
-            const status = isNewUser ? 201 : 400;
-            const success = isNewUser ? true : false;
-            const severity = isNewUser ? 'success' : 'warning';
-            const message = isNewUser ? 'User created Successfully' : 'A user with that email already exists';
-
-            _res.status = status;
-            _res.success = success;
-            _res.severity = severity
-            _res.message = message;
+            _res.status = isNewSchoolSession ? 201 : 400;
+            _res.success = isNewSchoolSession ? true : false;
+            _res.severity = isNewSchoolSession ? 'success' : 'error';
+            _res.message = isNewSchoolSession ? 'Session created successfully' : 'Session already exists';
             _res.data = data;
         });
 
@@ -92,7 +109,6 @@ const createNew = async (req, res) => {
         _res.severity = 'error';
         _res.message = 'We encountered a fatal error while processing your form. Please report this error';
         _res.data = {};
-        // console.log(err)
     }
 
     res.json(_res)
@@ -100,6 +116,5 @@ const createNew = async (req, res) => {
 };
 
 const sessionController = { index, newSesion, createNew, getById };
-
 
 module.exports = sessionController;

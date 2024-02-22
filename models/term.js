@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   Term.init(termAttributes, {
     sequelize,
     modelName: 'Term',
+    timestamps: false
   });
   return Term;
 };
