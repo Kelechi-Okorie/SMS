@@ -20,6 +20,7 @@ app.use(session({ secret: '4CcPCnVvtBMOAp2nXG/F1LBP8WcmiBKwHw4B5A+KNOupRWugxAu+/
 const authRouter = require('./routes/authRoutes');
 const dashboardRouter = require('./routes/dashboardRoutes');
 const userRouter = require('./routes/userRoutes');
+const sessionRouter = require('./routes/sessionRoutes');
 const AdminRouter = require('./routes/adminRoutes');
 const schoolRouter = require('./routes/schoolRoute');
 const schoolTypeRouter = require('./routes/schoolTypeRoute');
@@ -47,15 +48,16 @@ app.set('view engine', 'ejs');
 const authenticationMiddleWare = (req, res, next) => {
     if (!req.user) {
         res.redirect('/auth/sign-in');
+    } else {
+        next();
     }
-
-    next();
 }
 
 app.use('/auth', authRouter);
 app.use('/dashboard', authenticationMiddleWare);
 app.use('/dashboard', dashboardRouter);
 app.use('/dashboard/users', userRouter);
+app.use('/dashboard/sessions', sessionRouter);
 app.use('/dashboard/admins', AdminRouter)
 app.use('/dashboard/schools', schoolRouter);
 app.use('/dashboard/school-types', schoolTypeRouter);

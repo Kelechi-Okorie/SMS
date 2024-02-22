@@ -1,0 +1,47 @@
+<%- include('../../includes/header', {currentUser, sessions}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">Sessions</h2>
+            <div class="ms-auto">
+                <a type="button" class="btn btn-primary" href="/dashboard/sessions/new"><i
+                        class="bi bi-plus-lg"></i>New</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Has Started</th>
+                    <th scope="col">Has Ended</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sessions.map((session, index)=> { %>
+                    <% const { id, name, isStarted, isEnded}=session; %>
+                        <tr>
+                            <th scope="row">
+                                <%= index + 1 %>
+                            </th>
+                            <td>
+                                <a href="/dashboard/users/<%= id %>">
+                                    <%= name %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= isStarted %>
+                            </td>
+                            <td>
+                                <%= isEnded %>
+                            </td>
+                        </tr>
+                        <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <%- include('../../includes/footer') %>
