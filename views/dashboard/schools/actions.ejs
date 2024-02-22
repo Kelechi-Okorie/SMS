@@ -5,7 +5,7 @@
         <% const {id, ownerId, owner, name, email, phone, address, SchoolType}=school %>
 
             <div class="mb-3 title d-flex">
-                <h2>Actions</h2>
+                <h2 class="title">Actions</h2>
             </div>
 
             <div class="mb-3 d-flex">
@@ -81,7 +81,47 @@
                     </div>
                 <% } else {%>
                     <div>
-                        <p>The school has an owner</p>
+                        <h3 class="mb-3">The school owner</h3>
+                        <div class="card mb-3">
+                            <h5 class="card-header">
+                                <%= owner.fullName %>
+                            </h5>
+                            <div class="card-body">
+                                <h5 class="card-title">First Name</h5>
+                                <p class="card-text">
+                                    <%= owner.firstName %>
+                                </p>
+                                <h5 class="card-title">Middle Name</h5>
+                                <p class="card-text">
+                                    <%= owner.middleName%>
+                                </p>
+                                <h5 class="card-title">Last Name</h5>
+                                <p class="card-text">
+                                    <%= owner.lastName %>
+                                </p>
+                            </div>
+                        </div>
+        
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Phone</h5>
+                                <p class="card-text">
+                                    <%= owner.phone %>
+                                </p>
+        
+                            </div>
+                        </div>
+        
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Address</h5>
+                                <p class="card-text">
+                                    <%= owner.address %>
+                                </p>
+        
+                            </div>
+                        </div>
+        
                     </div>
                 <% } %>
             </div>
