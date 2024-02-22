@@ -1,0 +1,273 @@
+<%- include('../../includes/header', { currentUser}) %>
+
+    <div class="main-content p-3">
+
+        <% const {id, ownerId, owner, name, email, phone, address, SchoolType}=school %>
+
+            <div class="mb-3 title d-flex">
+                <h2>Actions</h2>
+            </div>
+
+            <div class="mb-3 d-flex">
+                <h2>
+                    <%= name %>
+                </h2>
+            </div>
+
+            <div class="main-content p-3">
+
+                <div class="d-none">
+                    <input id="schoolId" type="hidden" value="<%= id %>">
+                </div>
+
+                <div class="card p-3 mx-auto d-none" style="max-width: 500px" id="success-div">
+                    <h3 class="text-center mb-3">School owner successfull set</h3>
+                    <div class="fs-1 text-center text-success mb-3">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button class="btn">
+                            <a class="" href="/dashboard/schools">View all schools</a>
+                        </button>
+                    </div>
+                </div>
+
+
+                <% if(!ownerId) { %>
+                    <div id="no-owner-alert" class="alert alert-danger mb-5" role="alert">
+                        <i class="bi bi-info-circle"></i> No owner was found for this school!
+                    </div>
+
+
+                    <div class="card p-3 mx-auto mb-5" style="max-width: 400px" id="form-div">
+                        <div>
+                            <h3 style="color: #ED6C02">Search a user to make him owner of this school</h3>
+                        </div>
+
+                        <form action="/api/users/search" method="POST">
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username">
+                            </div>
+
+                            <div class="mb-3 d-flex justify-content-end">
+                                <button class="btn btn-outline-danger" id="submit-btn" type="submit">
+                                    <span id="submit-spinner" class="spinner-border spinner-border-sm d-none"
+                                        aria-hidden="true"></span>
+                                    submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="search-result-div" class="mx-auto" style="max-width: 400px">
+                        <div>
+                            <h4>Search result</h4>
+                            <hr />
+                        </div>
+
+                        <div class="mb-3" id="result"></div>
+
+                        <div id="make-school-owner-button-div" class="d-flex justify-content-end d-none">
+                            <button id="submit-school-owner-btn" class="btn btn-danger" onclick="makeSchoolOwner()">
+                                <span id="submit-school-owner-spinner" class="spinner-border spinner-border-sm d-none"
+                                    aria-hidden="true"></span>
+                                Make school owner
+                            </button>
+                        </div>
+
+                    </div>
+                <% } else {%>
+                    <div>
+                        <p>The school has an owner</p>
+                    </div>
+                <% } %>
+            </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">An Error occured</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>An error occured</p>
+                    <p>The process could not be completed</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- For html templates -->
+
+    <template id="user-found">
+        <div class="mb-3">
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+    </template>
+
+    <template id="user-not-found">
+        <div>
+            <p style="color: red;"></p>
+        </div>
+    </template>
+
+    <script>
+        let foundUser;
+        const submitForm = (formData) => {
+            const { username } = formData;
+            const response = fetch(`/api/users/search-by-username/${username}`, {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            return response;
+        };
+
+
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async (evt) => {
+            evt.preventDefault();
+
+            const submitBtn = document.querySelector('#submit-btn');
+            const submitSpinner = document.querySelector('#submit-spinner');
+            const makeSchoolOwnerBtn = document.querySelector('#make-school-owner-button-div');
+
+            const form = evt.srcElement;
+            const username = form.username.value;
+
+            submitBtn.setAttribute('disabled', true);
+            submitSpinner.classList.remove('d-none');
+            makeSchoolOwnerBtn.classList.add('d-none')
+
+            const payload = { username };
+            const response = await submitForm(payload);
+            const data = await response.json();
+
+            console.log(data);
+
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+            submitBtn.removeAttribute('disabled');
+            submitSpinner.classList.add('d-none');
+            console.log('tsting')
+
+            if (data.success) {
+                let resultDiv = document.querySelector('#result');
+                let template = document.querySelector("#user-found");
+
+                // Clone the new row and insert it into the table
+
+                let clone = template.content.cloneNode(true);
+                let ps = clone.querySelectorAll('p');
+
+                const { user } = data.data;
+                foundUser = user;
+                ps[0].textContent = user.fullName;
+                ps[1].textContent = user.userName;
+                ps[1].textContent = user.phone;
+
+                while (resultDiv.firstChild) {
+                    resultDiv.removeChild(resultDiv.firstChild);
+                }
+                resultDiv.appendChild(clone);
+
+                // makeSchoolOwnerBtn = docment.querySelector('#make-school-owner-btn-div');
+                makeSchoolOwnerBtn.classList.remove('d-none')
+
+            } else {
+                let resultDiv = document.querySelector('#result');
+                let template = document.querySelector("#user-not-found");
+
+                let clone = template.content.cloneNode(true);
+                let p = clone.querySelector('p');
+
+                p.textContent = data.message;
+
+                while (resultDiv.firstChild) {
+                    resultDiv.removeChild(resultDiv.firstChild);
+                }
+                resultDiv.appendChild(clone);
+            }
+
+        });
+
+        const submitOwner = (formData) => {
+            const response = fetch('/api/schools/make-owner', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            return response;
+        };
+
+        const makeSchoolOwner = async () => {
+            const submitBtn = document.querySelector('#submit-school-owner-btn');
+            const submitSpinner = document.querySelector('#submit-school-owner-spinner');
+
+            submitBtn.setAttribute('disabled', true);
+            submitSpinner.classList.remove('d-none');
+
+            const schoolId = Number.parseInt(document.querySelector('#schoolId').value);
+
+            const payload = { userId: foundUser.id, schoolId: schoolId };
+            const response = await submitOwner(payload);
+            const data = await response.json();
+
+            console.log(data);
+
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+            submitBtn.removeAttribute('disabled');
+            submitSpinner.classList.add('d-none');
+
+            if (data.success) {
+                const formDiv = document.querySelector('#form-div');
+                const successDiv = document.querySelector('#success-div');
+                const noOwnerDiv = document.querySelector('#no-owner-alert');
+                const searchResultDiv = document.querySelector('#search-result-div');
+
+                formDiv.classList.add('d-none');
+                successDiv.classList.remove('d-none');
+                noOwnerDiv.classList.add('d-none');
+                searchResultDiv.classList.add('d-none');
+
+            } else {
+                console.log(data)
+                const modal = new bootstrap.Modal('#errorModal', {});
+                modal.show();
+            }
+
+        }
+
+
+    </script>
+    <%- include('../../includes/footer', { currentUser}) %>

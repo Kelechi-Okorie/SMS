@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {index, getById, newSchool, createNewSchool} = require('../../../controllers/school');
+const {index, getById, makeOwner, createNewSchool} = require('../../../controllers/school');
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ const router = express.Router();
 // router.get('/', index);
 // router.get('/new', newSchool)
 // router.get('/:id', getById);
-router.post('/new', createNewSchool)
+router.post('/new', createNewSchool);
+router.post('/make-owner', makeOwner);
 
 module.exports = router;

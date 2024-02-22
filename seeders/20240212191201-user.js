@@ -3,10 +3,12 @@
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
 
+const { sequelize, User, PortalAdmin } = require('../models');
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -17,18 +19,12 @@ module.exports = {
      * }], {});
     */
 
-    const users = [];
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
 
+    const userName = (`${firstName}-${lastName}@gmail.com`).toLowerCase();
 
-    for(let i = 0; i < 30; i++) {
-
-      
-      const firstName = faker.person.firstName();
-      const lastName = faker.person.lastName();
-      
-      const userName = (`${firstName}-${lastName}@gmail.com`).toLowerCase();
-      
-    users.push({
+    const user = {
       firstName: lastName,
       lastName: faker.person.lastName(),
       middleName: faker.person.middleName(),
@@ -43,14 +39,24 @@ module.exports = {
       config: '{"hasChangedPassword": false}',
       createdAt: new Date(),
       updatedAt: new Date()
-    });
-    
-  }
-    await queryInterface.bulkInsert('users', users);
+    }
 
+    await queryInterface.bulkInsert('users', [user]);
+
+    try {
+      const result = await sequelize.transaction(async (t) => {
+        const adminUser = await User.findOne({transaction: t});
+
+        await adminUser.createPortalAdmin({}, {transaction: t});
+
+      });
+
+    } catch(err) {
+      console.log(err)
+    }
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *

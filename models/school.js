@@ -16,10 +16,13 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.SchoolType);
 
-      this.hasMany(models.SchoolStaff, { foreignKey: 'schoolId', as: 'staff' });
+      this.hasMany(models.SchoolStaff, { foreignKey: 'schoolId', as: 'Staff' });
       this.hasMany(models.Student);
 
-      this.hasMany(models.User, { foreignKey: 'schoolId', as: 'user' })
+      this.hasMany(models.User, { foreignKey: 'schoolId', as: 'user' });
+
+      this.belongsTo(models.User, {foreignKey: 'ownerId', as: 'owner'});
+
 
       this.hasMany(models.Session);
 

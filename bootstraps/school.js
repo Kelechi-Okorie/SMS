@@ -11,6 +11,10 @@ module.exports = (Sequelize) => {
         uid: {
             type: DataTypes.STRING(191),
         },
+        ownerId: {
+            type: DataTypes.INTEGER,
+            references: { model: 'users', key: 'id' }
+        },
         schoolTypeId: {
             type: Sequelize.INTEGER,
             references: { model: 'SchoolTypes', key: 'id' }

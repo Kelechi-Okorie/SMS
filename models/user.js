@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       this.hasOne(models.SchoolStaff, { foreignKey: 'userId' });
       this.hasOne(models.PortalAdmin);
 
+      this.hasOne(models.School, { foreignKey: 'ownerId' });
+
       this.belongsTo(models.School, { foreignKey: 'schoolId' });
 
       // this.hasMany(models.Payment);

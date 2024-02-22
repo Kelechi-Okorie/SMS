@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.SchoolStaff, { foreignKey: 'disabledBy', as: 'disabledStaff' });
       this.belongsTo(models.SchoolStaff, { foreignKey: 'disabledBy', as: 'disablingStaff' });
 
-      this.belongsTo(models.School, { foreignKey: 'schoolId', as: 'school' });
+      this.belongsTo(models.School, { foreignKey: 'schoolId', as: 'School' });
 
       this.belongsToMany(models.Subject, { through: models.StaffSubjectJunctionTable });
 
@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
   SchoolStaff.init(schoolStaffAttributes, {
     sequelize,
     modelName: 'SchoolStaff',
+    timestamps: false
   });
   return SchoolStaff;
 };

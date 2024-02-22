@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {createNewUser} = require('../../../controllers/user');
+const { createNewUser, searchByUserName } = require('../../../controllers/user');
 
 const router = express.Router();
 
@@ -13,6 +13,7 @@ const router = express.Router();
 //     next()
 // });
 
-router.post('/new', createNewUser)
+router.post('/new', createNewUser);
+router.get('/search-by-username/:username', searchByUserName);
 
 module.exports = router;

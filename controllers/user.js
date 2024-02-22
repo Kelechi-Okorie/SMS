@@ -3,7 +3,7 @@ const { sequelize, User } = require('../models');
 const index = async (req, res) => {
     let currentUser = req.user;
 
-    if(!currentUser) {
+    if (!currentUser) {
         res.redirect('/auth/sign-in');
     }
     currentUser = await User.findByPk(currentUser.id);
@@ -16,7 +16,7 @@ const index = async (req, res) => {
 const newUser = async (req, res) => {
     let currentUser = req.user;
 
-    if(!currentUser) {
+    if (!currentUser) {
         res.redirect('/auth/sign-in');
     }
     currentUser = await User.findByPk(currentUser.id);
@@ -29,23 +29,23 @@ const getById = async (req, res) => {
 
     let currentUser = req.user;
 
-    if(!currentUser) {
+    if (!currentUser) {
         res.redirect('/auth/sign-in');
     }
     currentUser = await User.findByPk(currentUser.id);
 
     const user = await User.findByPk(id);
-    
+
     res.render('dashboard/users/details', { currentUser, user });
 };
 
-const createNewUser = async(req, res) => {
+const createNewUser = async (req, res) => {
     const _res = {};
 
     const { username, firstname, middlename, lastname, dob, phone, type, address } = req.body;
 
     const isType = (dbType, formType) => {
-        if(dbType == formType) {
+        if (dbType == formType) {
             return true
         }
     }
@@ -107,7 +107,29 @@ const createNewUser = async(req, res) => {
 
 };
 
-const userController = { index, newUser, createNewUser, getById };
+const searchByUserName = async (req, res) => {
+    const { username } = req.params;
+
+    const _res = {}
+
+    const user = await User.findOne({ where: { userName: username } });
+
+    const data = {
+        user
+    };
+
+    const foundUser = Boolean(user);
+
+    _res.status = foundUser ? 200 : 404;
+    _res.success = foundUser ? true : false;
+    _res.severity = foundUser ? 'success' : 'error';
+    _res.message = foundUser ? 'User found' : `We could not find a user with the email ${username}`;
+    _res.data = data
+
+    res.json(_res);
+}
+
+const userController = { index, newUser, createNewUser, searchByUserName, getById };
 
 
 module.exports = userController;
