@@ -156,11 +156,13 @@ const editSession = async (req, res) => {
                     );
 
                     const currentTerm = await school.getCurrentTerm({ transaction: t });
-                    await currentTerm.update({
-                        isCurrentTerm: false
-                    },
+                    if(currentTerm) {
+                        await currentTerm.update({
+                            isCurrentTerm: false
+                        },
                         { transaction: t }
-                    );
+                        );
+                    }
 
                     const newCurrentTerm = await Term.findOne({
                         where: {

@@ -64,11 +64,13 @@ const editTerm = async (req, res) => {
             if (term) {
                 if (isCurrentTerm === true) {
                     const currentTerm = await school.getCurrentTerm({ transaction: t });
-                    currentTerm.update({
-                        isCurrentTerm: false
-                    },
+                    if(currentTerm) { 
+                        currentTerm.update({
+                            isCurrentTerm: false
+                        },
                         { transaction: t }
-                    );
+                        );
+                    }
                 }
 
                 await term.update({
