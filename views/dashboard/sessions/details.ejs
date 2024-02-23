@@ -34,9 +34,6 @@
                         </p>
                         <p class="card-title mb-3">
                             Has ended: <%= isEnded ? 'Yes' : 'No' %>
-                            <% if(!isEnded) { %>
-                                <button class="btn btn-sm btn-outline-danger" onclick="endSession({schoolId: '<%= school.id %>', sessionId: '<%= session.id %>'})">End</button>
-                            <% } %>
                         </p>
                         <p class="card-title mb-3">Start date: <%= new Date(startDate).toDateString() %></p>
                     </div>
@@ -136,11 +133,34 @@
         };
 
         const startTerm = async (options) => {
-            console.log('start term', options)
+            const { termId, sessionId } = options;
+            const formData = {
+                termId,
+                sessionId,
+                isStarted: true,
+                isCurrentTerm: true
+            };
+
+            const response = await fetchRequest(`/api/v1/terms/${termId}`, formData);
+            console.log(response)
+            const data = await response.json();
+            console.log(data);
         }
 
-        const endTerm = (options) => {
-            console.log('end term', options);
+        const endTerm = async (options) => {
+            const { termId, sessionId } = options;
+            const formData = {
+                termId,
+                sessionId,
+                isStarted: true,
+                isCurrentTerm: true,
+                isEnded: true
+            };
+
+            const response = await fetchRequest(`/api/v1/terms/${termId}`, formData);
+            console.log(response)
+            const data = await response.json();
+            console.log(data);
         }
     </script>
     <%- include('../../includes/footer', { currentUser}) %>

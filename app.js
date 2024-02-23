@@ -29,6 +29,7 @@ const schoolTypeRouterApi = require('./routes/api/v1/schoolTypeRoute');
 const schoolRouterApi = require('./routes/api/v1/schoolRoute');
 const userRouterApi = require('./routes/api/v1/userRoute');
 const sessionRouterApi = require('./routes/api/v1/sessionRoutes');
+const termRouterApi = require('./routes/api/v1/termRoutes');
 
 
 require('./config/passport')(app);
@@ -67,6 +68,7 @@ app.use('/api/school-types', schoolTypeRouterApi);
 app.use('/api/schools', schoolRouterApi);
 app.use('/api/users', userRouterApi);
 app.use('/api/v1/sessions', sessionRouterApi);
+app.use('/api/v1/terms', termRouterApi);
 
 app.get('/', async (req, res) => {
     res.render('index')
