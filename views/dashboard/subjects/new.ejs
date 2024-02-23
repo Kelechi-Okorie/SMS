@@ -1,7 +1,7 @@
 <%- include('../../includes/header', { currentUser}) %>
 
     <div class="mb-3 d-flex">
-        <h2 class="title">New Sesion</h2>
+        <h2 class="title">New Subjects</h2>
     </div>
 
     <div class="card p-3 mx-auto d-none" style="max-width: 500px" id="success-div">
@@ -12,7 +12,7 @@
 
         <div class="d-flex justify-content-end">
             <button class="btn">
-                <a class="" href="/dashboard/sessions">View all sessions</a>
+                <a class="" href="/dashboard/subjects">View all subjects</a>
             </button>
         </div>
     </div>
@@ -21,7 +21,7 @@
 
     <div class="card p-3 mx-auto" style="max-width: 500px" id="form-div">
 
-        <form action="/api/sessions/new" method="POST">
+        <form action="/api/subjects/new" method="POST">
             <input id="numClasses" type="hidden" value="0" />
 
 
@@ -29,6 +29,11 @@
                 <label for="username" class="form-label">name</label>
                 <input type="text" class="form-control" name="name">
             </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" name="description" rows="3"></textarea>
+              </div>
 
             <div class="mb-3 d-flex justify-content-end">
                 <button class="btn btn-danger" id="submit-btn" type="submit">
@@ -42,7 +47,7 @@
 
     <script>
         const submitForm = (formData) => {
-            const response = fetch('/api/sessions/new', {
+            const response = fetch('/api/v1/subjects/new', {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -64,11 +69,12 @@
 
             const form = evt.srcElement;
             const name= form.name.value;
+            const description = form.description.value;
 
             submitBtn.setAttribute('disabled', true);
             submitSpinner.classList.remove('d-none');
 
-            const payload = {name};
+            const payload = {name, description};
             const response = await submitForm(payload);
             console.log(response)
             const data = await response.json();

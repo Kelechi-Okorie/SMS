@@ -33,7 +33,7 @@ const getById = async (req, res) => {
         res.redirect('/auth/sign-in');
     }
     currentUser = await User.findByPk(currentUser.id);
-    const school = currentUser.getSchool();
+    const school = await currentUser.getSchool();
     const subject = await Subject.findByPk(id);
 
     res.render('dashboard/subjects/details', { currentUser, subject });
@@ -42,56 +42,45 @@ const getById = async (req, res) => {
 const createNew = async (req, res) => {
     const _res = {};
 
-    const { username, firstname, middlename, lastname, dob, phone, type, address } = req.body;
-
-    const isType = (dbType, formType) => {
-        if (dbType == formType) {
-            return true
-        }
+    let currentUser = req.user;
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
     }
+    currentUser = await User.findByPk(currentUser.id);
+    const school = await currentUser.getSchool();
+
+    const { name, description } = req.body;
 
     try { // http: 201
-
         const result = await sequelize.transaction(async (t) => {
 
-            const [user, isNewUser] = await User.findOrCreate({
+            const [subject, isNewSubject] = await Subject.findOrCreate({
                 where: {
-                    userName: username
+                    schoolId: school.id,
+                    name: name.trim(),
                 },
                 defaults: {
-                    firstName: firstname,
-                    lastName: lastname,
-                    middleName: middlename,
-                    dob: dob,
-                    userName: username,
-                    phone: phone,
-                    address: address,
-                    password: username,
-                    isPortalAdmin: isType('isPortalAdmin', type),
-                    isSchoolStaff: isType('isSchoolStaff', type)
+                    description: description
                 },
                 transaction: t
             });
 
-            if (isNewUser && isType('isPortalAdmin', type)) {
-                await user.createPortalAdmin({}, { transaction: t });
+
+            if (isNewSubject) {
+                await school.addSubject(subject, { transaction: t });
             }
 
             const data = {
-                user
-            };
+                subject
+            }
 
-            const status = isNewUser ? 201 : 400;
-            const success = isNewUser ? true : false;
-            const severity = isNewUser ? 'success' : 'warning';
-            const message = isNewUser ? 'User created Successfully' : 'A user with that email already exists';
-
-            _res.status = status;
-            _res.success = success;
-            _res.severity = severity
-            _res.message = message;
+            _res.status = isNewSubject ? 201 : 400;
+            _res.success = isNewSubject ? true : false;
+            _res.severity = isNewSubject ? 'success' : 'error';
+            _res.message = isNewSubject ? 'Subject created successfully' : 'Subject already exist';
             _res.data = data;
-        });
+
+        })
 
     } catch (err) { // http: 500
         console.log(err);
@@ -100,15 +89,12 @@ const createNew = async (req, res) => {
         _res.severity = 'error';
         _res.message = 'We encountered a fatal error while processing your form. Please report this error';
         _res.data = {};
-        // console.log(err)
     }
 
     res.json(_res)
-
 };
 
 
 const userController = { index, newSubject, createNew, getById };
-
 
 module.exports = userController;
