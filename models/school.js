@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
 
       this.hasMany(models.Subject);
 
-      this.hasMany(models.Assessment);
+      // this.hasMany(models.Assessment);
 
-      this.hasMany(models.Grade);
+      // this.hasMany(models.Grade);
 
       this.hasMany(models.StudentClass);
       this.hasMany(models.StudentResult);

@@ -7,9 +7,12 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+const { User, School, Grade, Assessment } = require('./models');
+
 const app = express();
 
 const port = process.env.port || 3005;
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -77,6 +80,34 @@ app.use('/api/v1/subjects', subjectRouterApi)
 app.get('/', async (req, res) => {
     res.render('index')
     // res.send('the testing file');
+});
+
+app.get('/dashboard/settings/grades', async (req, res) => {
+    let currentUser = req.user;
+
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
+    currentUser = await User.findByPk(currentUser.id);
+    const school = await currentUser.getSchool();
+    const grades = await Grade.findAll();
+
+    res.render(path.join(__dirname, 'views', 'dashboard', 'settings', 'grades'), { currentUser, grades });
+
+});
+
+app.get('/dashboard/settings/assessments', async (req, res) => {
+    let currentUser = req.user;
+
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
+    currentUser = await User.findByPk(currentUser.id);
+    const school = await currentUser.getSchool();
+    const assessments = await Assessment.findAll();
+
+    res.render(path.join(__dirname,'views', 'dashboard', 'settings', 'assessments'), { currentUser, assessments });
+
 });
 
 app.get('/tests', async (req, res) => {

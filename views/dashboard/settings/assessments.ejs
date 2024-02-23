@@ -1,0 +1,44 @@
+<%- include('../../includes/header', {currentUser, assessments}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">Assessments</h2>
+            <div class="ms-auto">
+
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Ordinal</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Max Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% assessments.map((assessment, index)=> { %>
+                    <% const { id, ordinal, name, maximumScore}=assessment; %>
+                        <tr>
+                            <th scope="row">
+                                <%= index + 1 %>
+                            </th>
+                            <td>
+                                <%= ordinal %>
+                            </td>
+                            <td>
+                                <%= name %>
+                            </td>
+                            <td>
+                                <%= maximumScore %>
+                            </td>
+                        </tr>
+                        <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <%- include('../../includes/footer') %>

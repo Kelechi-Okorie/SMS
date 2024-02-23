@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.School);
+      // this.belongsTo(models.School);
 
       this.hasMany(models.AssessmentLineItem);
 
@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   Assessment.init(assessmentAttributes, {
     sequelize,
     modelName: 'Assessment',
+    timestamps:false
   });
   return Assessment;
 };

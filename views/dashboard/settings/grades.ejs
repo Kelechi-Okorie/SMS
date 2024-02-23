@@ -1,0 +1,47 @@
+<%- include('../../includes/header', {currentUser, grades}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">Grades</h2>
+            <div class="ms-auto">
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Min</th>
+                    <th scope="col">Max</th>
+                    <th scope="col">Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% grades.map((grade, index)=> { %>
+                    <% const { id, name, min, max, remarks}=grade; %>
+                        <tr>
+                            <th scope="row">
+                                <%= index + 1 %>
+                            </th>
+                            <td>
+                                <%= name %>
+                            </td>
+                            <td>
+                                <%= min %>
+                            </td>
+                            <td>
+                                <%= max %>
+                            </td>
+                            <td>
+                                <%= remarks %>
+                            </td>
+                        </tr>
+                        <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <%- include('../../includes/footer') %>

@@ -8,10 +8,10 @@ module.exports = (Sequelize) => {
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        schoolId: {
-            type: DataTypes.INTEGER,
-            references: { model: 'Schools', key: 'id'}
-        },
+        // schoolId: {
+        //     type: DataTypes.INTEGER,
+        //     references: { model: 'Schools', key: 'id'}
+        // },
         ordinal: {
             type: DataTypes.INTEGER,
             allowNull: false
