@@ -21,6 +21,7 @@ const authRouter = require('./routes/authRoutes');
 const dashboardRouter = require('./routes/dashboardRoutes');
 const userRouter = require('./routes/userRoutes');
 const sessionRouter = require('./routes/sessionRoutes');
+const subjectRouter = require('./routes/subjectRoutes');
 const AdminRouter = require('./routes/adminRoutes');
 const schoolRouter = require('./routes/schoolRoute');
 const schoolTypeRouter = require('./routes/schoolTypeRoute');
@@ -30,6 +31,7 @@ const schoolRouterApi = require('./routes/api/v1/schoolRoute');
 const userRouterApi = require('./routes/api/v1/userRoute');
 const sessionRouterApi = require('./routes/api/v1/sessionRoutes');
 const termRouterApi = require('./routes/api/v1/termRoutes');
+const subjectRouterApi = require('./routes/api/v1/subjectRoute');
 
 
 require('./config/passport')(app);
@@ -64,11 +66,13 @@ app.use('/dashboard/admins', AdminRouter)
 app.use('/dashboard/schools', schoolRouter);
 app.use('/dashboard/school-types', schoolTypeRouter);
 app.use('/dashboard/settings', settingsRouter);
+app.use('/dashboard/subjects', subjectRouter);
 app.use('/api/school-types', schoolTypeRouterApi);
 app.use('/api/schools', schoolRouterApi);
 app.use('/api/users', userRouterApi);
 app.use('/api/v1/sessions', sessionRouterApi);
 app.use('/api/v1/terms', termRouterApi);
+app.use('/api/v1/subjects', subjectRouterApi)
 
 app.get('/', async (req, res) => {
     res.render('index')

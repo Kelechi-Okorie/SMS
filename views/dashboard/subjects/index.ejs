@@ -1,0 +1,30 @@
+<%- include('../../includes/header', {currentUser, subjects}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">Subjects</h2>
+            <div class="ms-auto">
+                <a type="button" class="btn btn-primary" href="/dashboard/subjects/new"><i
+                        class="bi bi-plus-lg"></i>New</a>
+            </div>
+        </div>
+
+                <% subjects.map((subject, index)=> { %>
+                    <% const { id, name, description}=subject; %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <a href="/dashboard/subjects/<%= id %>">
+                                <p class="card-text">
+                                    <%= name %>
+                                </p>
+                            </a>
+    
+                        </div>
+                    </div>
+    
+                <% }); %>
+    </div>
+
+
+    <%- include('../../includes/footer') %>

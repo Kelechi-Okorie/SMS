@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   Subject.init(subjectAttributes, {
     sequelize,
     modelName: 'Subject',
+    timestamps: false
   });
   return Subject;
 };
