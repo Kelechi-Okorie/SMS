@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   Demarcation.init(demarcationAttributes, {
     sequelize,
     modelName: 'Demarcation',
+    timestamps: false
   });
   return Demarcation;
 };
