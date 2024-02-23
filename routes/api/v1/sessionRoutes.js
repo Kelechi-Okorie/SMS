@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { createNew } = require('../../../controllers/sessions');
+const { createNew, editSession } = require('../../../controllers/sessions');
 
 const router = express.Router();
 
@@ -14,5 +14,6 @@ const router = express.Router();
 // });
 
 router.post('/new', createNew);
+router.put('/:id', editSession)
 
 module.exports = router;

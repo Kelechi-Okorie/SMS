@@ -66,7 +66,7 @@ app.use('/dashboard/settings', settingsRouter);
 app.use('/api/school-types', schoolTypeRouterApi);
 app.use('/api/schools', schoolRouterApi);
 app.use('/api/users', userRouterApi);
-app.use('/api/sessions', sessionRouterApi);
+app.use('/api/v1/sessions', sessionRouterApi);
 
 app.get('/', async (req, res) => {
     res.render('index')

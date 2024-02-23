@@ -96,7 +96,7 @@ module.exports = (Sequelize) => {
         updatedAt: {
             type: DataTypes.DATE,
             set(value) {
-                this.setDataValue('updatedAt', new Date);
+                this.setDataValue('updatedAt', new Date());
             },
         },
         deletedAt: {

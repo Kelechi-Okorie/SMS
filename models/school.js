@@ -47,6 +47,43 @@ module.exports = (sequelize, DataTypes) => {
 
       this.hasMany(models.Comment);
     }
+
+    async getSchoolClasses() {
+      const schoolType = await this.getSchoolType();
+      const schoolClasses = await schoolType.getSchoolClasses();
+      return schoolClasses;
+    }
+
+    async getCurrentSession() {
+      const schoolSessions = await this.getSessions({
+        where: {
+          schoolId: this.id,
+          isCurrentSession: true
+        }
+      });
+
+      const currentSession = schoolSessions[0];
+
+      return currentSession;
+    }
+
+    async getCurrentTerm() {
+      const currentSession = await this.getCurrentSession();
+      if (!currentSession) {
+        return null;
+      }
+
+      const terms = await currentSession.getTerms({
+        where: {
+          sessionId: currentSession.id,
+          isCurrentTerm: true
+        }
+      });
+      const currentTerm = terms[0];
+      return currentTerm;
+
+    }
+
   }
   School.init(schoolAttributes, {
     sequelize,

@@ -45,6 +45,15 @@ db.School.addScope('defaultScope', {
   ]
 });
 
+// db.Session.addScope('defaultScope', {
+//   include: [
+//     {
+//       model: db.Term
+//     }
+//   ]
+// });
+
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

@@ -27,9 +27,14 @@ const getById = async (req, res) => {
     let currentUser = req.user;
     currentUser = await User.findByPk(currentUser.id);
 
-    const user = await User.findByPk(id);
+    const school = await currentUser.getSchool();
+    const session = await Session.findByPk(id, { include: [{ model: Term }] });
+    const currentSession = await school.getCurrentSession();
+    const currentTerm = await school.getCurrentTerm();
 
-    res.render('dashboard/users/details', { currentUser, user });
+    console.log(session)
+
+    res.render('dashboard/sessions/details', { currentUser, school, session, currentSession, currentTerm });
 };
 
 const createNew = async (req, res) => {
@@ -111,10 +116,125 @@ const createNew = async (req, res) => {
         _res.data = {};
     }
 
-    res.json(_res)
+    res.json(_res);
 
 };
 
-const sessionController = { index, newSesion, createNew, getById };
+const editSession = async (req, res) => {
+    const _res = {};
+
+    let currentUser = req.user;
+    currentUser = await User.findByPk(currentUser.id);
+    const school = await currentUser.getSchool();
+
+    const { sessionId, isStarted, isCurrentSession } = req.body;
+
+    try { // http: 201
+
+        const result = await sequelize.transaction(async (t) => {
+
+            const schoolSession = await Session.findOne({
+                where: {
+                    id: sessionId,
+                    schoolId: school.id
+                },
+                transaction: t
+            });
+
+            let updated = false;
+
+            if (schoolSession) {
+                if (isCurrentSession === true) {
+                    const currentSession = await school.getCurrentSession({ transaction: t });
+
+                    await currentSession.update({
+                        isCurrentSession: false,
+                        isEnded: true,
+                        endDate: new Date()
+                    },
+                        { transaction: t }
+                    );
+
+                    const currentTerm = await school.getCurrentTerm({ transaction: t });
+                    await currentTerm.update({
+                        isCurrentTerm: false
+                    },
+                        { transaction: t }
+                    );
+
+                    const newCurrentTerm = await Term.findOne({
+                        where: {
+                            sessionId: sessionId,
+                            termNumber: 1
+                        },
+                        transaction: t
+                    });
+
+                    await newCurrentTerm.update({
+                        isStarted: true,
+                        startDate: new Date(),
+                        isCurrentTerm: true
+                    },
+                        { transaction: t }
+                    );
+                }
+
+                await schoolSession.update({
+                    isStarted: isStarted || schoolSession.isStarted,
+                    startDate: schoolSession.startDate || new Date(),
+                    isCurrentSession: isCurrentSession || schoolSession.isCurrentSession
+                },
+                    { transaction: t }
+                );
+
+                updated = true;
+            }
+
+            let schSession;
+
+            if (updated) {
+                schSession = await Session.findOne({
+                    where: {
+                        schoolId: school.id,
+                        id: sessionId
+                    },
+                    include: [
+                        {
+                            model: Term
+                        }
+                    ],
+                    transaction: t
+                })
+
+            }
+
+            await schoolSession.reload({ transaction: t });
+
+            const data = {
+                schoolSession: schSession
+            }
+
+            _res.status = updated ? 202 : 404;
+            _res.success = updated ? true : false;
+            _res.severity = updated ? 'success' : 'error';
+            _res.message = updated ? 'Session modified successfully' : 'The session was not found. Please try again or contact admin';
+            _res.data = data;
+
+        });
+
+    } catch (err) { // http: 500
+        console.log(err);
+
+        _res.status = 500;
+        _res.success = false;
+        _res.severity = 'error'
+        _res.message = 'We encountered a fatal error while processing your form. Please report this error';
+        _res.data = {};
+    }
+
+    res.json(_res);
+}
+
+const sessionController = { index, newSesion, createNew, editSession, getById };
 
 module.exports = sessionController;

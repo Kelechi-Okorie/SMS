@@ -1,0 +1,146 @@
+<%- include('../../includes/header', { currentUser}) %>
+
+    <% 
+        const isThisNextSession = () => {
+            const currentSessionStartYear = session.name.split('/')[0];
+            const thisSessionStartYear = session.name.split('/')[0];
+
+            return (Math.abs(currentSessionStartYear - thisSessionStartYear) === 1);
+        }
+    %>
+
+    <div class="main-content p-3">
+
+        <% const {id, name, isStarted, isEnded, startDate, endDate, isCurrentSession, Terms}=session %>
+
+            <div class="mb-3 d-flex">
+                <h2 class="title">Session</h2>
+            </div>
+
+            <div>
+                <div class="card mb-3">
+                    <h5 class="card-header">
+                        <%= name %>
+                    </h5>
+                    <div class="card-body">
+                        <p class="card-title mb-3">
+                            Has started: 
+                            <% if(isStarted) { %>
+                                <%= 'Yes' %>
+                            <% } else { %>
+                                No
+                                <button class="btn btn-sm btn-outline-danger" onclick="startSession({schoolId: '<%= school.id %>', sessionId: '<%= session.id %>'})">Start</button>
+                            <% } %>
+                        </p>
+                        <p class="card-title mb-3">
+                            Has ended: <%= isEnded ? 'Yes' : 'No' %>
+                            <% if(!isEnded) { %>
+                                <button class="btn btn-sm btn-outline-danger" onclick="endSession({schoolId: '<%= school.id %>', sessionId: '<%= session.id %>'})">End</button>
+                            <% } %>
+                        </p>
+                        <p class="card-title mb-3">Start date: <%= new Date(startDate).toDateString() %></p>
+                    </div>
+                </div>
+
+                <% Terms.forEach((term, index) => { %>
+                    <% const { name, termNumber, isStarted, isEnded, isCurrentTerm, startDate, endDate } = term; %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= name %> term</h5>
+                            <p class="card-title mb-3">
+                                <% if(isStarted) { %>
+                                    <%= 'Yes' %>
+                                <% } else { %>
+                                    No <button class="btn btn-sm btn-outline-danger" onclick="startTerm({schoolId: '<%= school.id %>', sessionId: '<%= session.id %>', termId: '<%= term.id %>'})">Start</button>
+                                <% } %>
+    
+                            </p>
+                            <p class="card-title mb-3">
+                                Has ended: <%= isEnded ? 'Yes' : 'No' %>
+                                <% if(!isEnded) { %>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="endTerm({schoolId: '<%= school.id %>', sessionId: '<%= session.id %>', termId: '<%= term.id %>'})">End</button>
+                                <% } %>
+    
+                            </p>
+                            <p class="card-title mb-3">Start date: <%= new Date(startDate).toDateString() %></p>  
+                        </div>
+                    </div>    
+                <% }); %>
+
+            </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="response-modal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <script>
+
+        const openModel = (options) => {
+            const { message } = options;
+            const modalElement = document.getElementById('response-modal')
+            const p = modalElement.querySelector('.modal-body p');
+            p.textContent = message;
+            const modal = new bootstrap.Modal(modalElement, {});
+            modal.show()
+        }
+
+        const fetchRequest = async (url = '', data = {}) => {
+            const response = await fetch(url, {
+                method: 'PUT',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            });
+
+            return response;
+        }
+
+
+        const startSession = async (options) => {
+            const { schoolId, sessionId } = options;
+            const formData = {
+                sessionId,
+                isStarted: true,
+                isCurrentSession: true
+            };
+            const response = await fetchRequest(`/api/v1/sessions/${sessionId}`, formData);
+            console.log(response)
+            const data = await response.json();
+
+            console.log(data);
+
+            // console.log('start session', options);
+            // const message = 'this is the message';
+            // openModel({message});
+        };
+
+        const endSession = async (options) => {
+            console.log('end session', options);
+        };
+
+        const startTerm = async (options) => {
+            console.log('start term', options)
+        }
+
+        const endTerm = (options) => {
+            console.log('end term', options);
+        }
+    </script>
+    <%- include('../../includes/footer', { currentUser}) %>

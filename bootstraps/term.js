@@ -30,10 +30,6 @@ module.exports = (Sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        amountPaid: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0
-        },
         startDate: {
             type: DataTypes.DATE
         },
