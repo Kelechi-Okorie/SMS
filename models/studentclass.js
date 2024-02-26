@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   StudentClass.init(studentClassAttributes, {
     sequelize,
     modelName: 'StudentClass',
+    timestamps: false
   });
   return StudentClass;
 };

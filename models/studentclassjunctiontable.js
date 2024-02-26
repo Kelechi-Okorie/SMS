@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   StudentClassJunctionTable.init(studentClassJunctionTableAttributes, {
     sequelize,
     modelName: 'StudentClassJunctionTable',
+    timestamps: false
   });
   return StudentClassJunctionTable;
 };

@@ -23,6 +23,7 @@ app.use(session({ secret: '4CcPCnVvtBMOAp2nXG/F1LBP8WcmiBKwHw4B5A+KNOupRWugxAu+/
 const authRouter = require('./routes/authRoutes');
 const dashboardRouter = require('./routes/dashboardRoutes');
 const userRouter = require('./routes/userRoutes');
+const studentRouter = require('./routes/studentRoutes');
 const sessionRouter = require('./routes/sessionRoutes');
 const subjectRouter = require('./routes/subjectRoutes');
 const AdminRouter = require('./routes/adminRoutes');
@@ -32,6 +33,7 @@ const settingsRouter = require('./routes/settingsRoutes');
 const schoolTypeRouterApi = require('./routes/api/v1/schoolTypeRoute');
 const schoolRouterApi = require('./routes/api/v1/schoolRoute');
 const userRouterApi = require('./routes/api/v1/userRoute');
+const studentRouterApi = require('./routes/api/v1/studentRoutes');
 const sessionRouterApi = require('./routes/api/v1/sessionRoutes');
 const termRouterApi = require('./routes/api/v1/termRoutes');
 const subjectRouterApi = require('./routes/api/v1/subjectRoute');
@@ -64,15 +66,19 @@ app.use('/auth', authRouter);
 app.use('/dashboard', authenticationMiddleWare);
 app.use('/dashboard', dashboardRouter);
 app.use('/dashboard/users', userRouter);
+app.use('/dashboard/students', studentRouter);
 app.use('/dashboard/sessions', sessionRouter);
 app.use('/dashboard/admins', AdminRouter)
 app.use('/dashboard/schools', schoolRouter);
 app.use('/dashboard/school-types', schoolTypeRouter);
 app.use('/dashboard/settings', settingsRouter);
 app.use('/dashboard/subjects', subjectRouter);
+
+// api routes
 app.use('/api/school-types', schoolTypeRouterApi);
 app.use('/api/schools', schoolRouterApi);
 app.use('/api/users', userRouterApi);
+app.use('/api/v1/students', studentRouterApi);
 app.use('/api/v1/sessions', sessionRouterApi);
 app.use('/api/v1/terms', termRouterApi);
 app.use('/api/v1/subjects', subjectRouterApi)
