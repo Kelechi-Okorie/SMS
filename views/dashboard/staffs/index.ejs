@@ -1,0 +1,45 @@
+<%- include('../../includes/header', {currentUser}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">School Staff</h2>
+            <div class="ms-auto">
+                <a type="button" class="btn btn-primary" href="/dashboard/staffs/new"><i class="bi bi-plus-lg"></i>New</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% staffs.map((staff, index)=> { %>
+                    <% const { id, User } = staff %>
+                    <% const { firstName, lastName, userName}=User; %>
+                    <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td>
+                            <a href="/dashboard/staffs/<%= id %>">
+                            <%= firstName %>
+                            </a>
+                        </td>
+                        <td>
+                            <%= lastName %>
+                        </td>
+                        <td>
+                            <%= userName %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+<%- include('../../includes/footer') %>

@@ -3,7 +3,7 @@ const {
   Model, Sequelize
 } = require('sequelize');
 
-const schoolStaffAttributes = require('../bootstraps/schoolSettings')(Sequelize);
+const schoolStaffAttributes = require('../bootstraps/schoolStaff')(Sequelize);
 
 module.exports = (sequelize, DataTypes) => {
   class SchoolStaff extends Model {
