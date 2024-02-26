@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasOne(models.SchoolStaff, { foreignKey: 'userId' });
       this.hasOne(models.PortalAdmin);
 
-      this.hasOne(models.School, { foreignKey: 'ownerId' });
+      this.hasOne(models.School, { foreignKey: 'ownerId', as: 'ownSchool' });
 
       this.belongsTo(models.School, { foreignKey: 'schoolId' });
 

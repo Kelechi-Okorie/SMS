@@ -2,8 +2,14 @@ const { sequelize, User, School, Session, Term } = require('../models');
 
 const index = async (req, res) => {
     let currentUser = req.user;
+    console.log('first----------', currentUser);
 
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
     currentUser = await User.findByPk(currentUser.id);
+
+    console.log('second---------', currentUser)
 
     const school = await currentUser.getSchool();
     const sessions = await Session.findAll();
@@ -13,8 +19,12 @@ const index = async (req, res) => {
 
 const newSesion = async (req, res) => {
     let currentUser = req.user;
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
 
     currentUser = await User.findByPk(currentUser.id);
+
     const school = await currentUser.getSchool();
     const sessions = await school.getSessions();
 
@@ -25,6 +35,10 @@ const getById = async (req, res) => {
     const { id } = req.params;
 
     let currentUser = req.user;
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
+
     currentUser = await User.findByPk(currentUser.id);
 
     const school = await currentUser.getSchool();
@@ -42,6 +56,10 @@ const createNew = async (req, res) => {
 
     const { name } = req.body;
     let currentUser = req.user;
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
+
     currentUser = await User.findByPk(currentUser.id);
     const school = await currentUser.getSchool();
 
@@ -124,6 +142,10 @@ const editSession = async (req, res) => {
     const _res = {};
 
     let currentUser = req.user;
+    if (!currentUser) {
+        res.redirect('/auth/sign-in');
+    }
+
     currentUser = await User.findByPk(currentUser.id);
     const school = await currentUser.getSchool();
 

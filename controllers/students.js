@@ -18,6 +18,7 @@ const index = async (req, res) => {
     }
     currentUser = await User.findByPk(currentUser.id);
     const school = await currentUser.getSchool();
+    console.log('the school---------', school)
     const students = await school.getStudents({include: [{model: User}]});
 
     res.render('dashboard/students/index', { currentUser, students });
@@ -39,10 +40,10 @@ const getById = async (req, res) => {
 
 
     // const student = await Student.findByPk(id, { include: [{ model: User }] });
-    const student = await
+    const student = await Student.findOne({where: {id, schoolId: school.id}, include: [{model: User}]});
+    console.log('the student ---', student)
 
-
-        res.render('dashboard/students/details', { currentUser, student });
+    res.render('dashboard/students/details', { currentUser, student });
 };
 
 const newStudent = async (req, res) => {
@@ -126,7 +127,7 @@ const createNewStudent = async (req, res) => {
             }, { transaction: t });
 
             // await user.setSchool(school, { transaction: t });
-            await school.setUser(user, { transaction: t});
+            await school.addUser(user, { transaction: t});
 
             const student = await school.createStudent({
                 regNumber: regNumber,

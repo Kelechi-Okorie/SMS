@@ -139,8 +139,8 @@ const makeOwner = async (req, res) => {
             });
 
 
-            await user.setSchool(school, { transaction: t });
-            await school.setUser(user, { transaction: t });
+            // await user.setSchool(school, { transaction: t });
+            await school.addUser(user, { transaction: t });
             await user.update({ isSchoolStaff: true }, { transaction: t });
             // const staff = await school.createStaff({ transaction: t });
             // await staff.setUser(user, { transaction: t });
