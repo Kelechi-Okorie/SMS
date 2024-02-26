@@ -20,7 +20,7 @@
             </thead>
             <tbody>
                 <% students.map((student, index)=> { %>
-                    <% const { id, regNumber, User}=school; %>
+                    <% const { id, regNumber, User}=student; %>
                     <% const { fullName, dob } = User; %>
                         <tr>
                             <th scope="row"><%= index + 1 %></th>
@@ -33,7 +33,7 @@
                                 <%= fullName %>
                             </td>
                             <td>
-                                <%= Date(dob).toDateString() %>
+                                <%= new Date(dob).toDateString() %>
                             </td>
                             <% }); %>
                         </tr>

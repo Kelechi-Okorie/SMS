@@ -53,8 +53,6 @@ const actions = async (req, res) => {
 
     const school = await School.findByPk(id, { include: [{model: User, as: 'owner'}]});
 
-    console.log(school)
-
     res.render('dashboard/schools/actions', { currentUser, school })
 }
 
@@ -142,6 +140,7 @@ const makeOwner = async (req, res) => {
 
 
             await user.setSchool(school, { transaction: t });
+            await school.setUser(user, { transaction: t });
             await user.update({ isSchoolStaff: true }, { transaction: t });
             // const staff = await school.createStaff({ transaction: t });
             // await staff.setUser(user, { transaction: t });

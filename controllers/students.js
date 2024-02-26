@@ -18,8 +18,7 @@ const index = async (req, res) => {
     }
     currentUser = await User.findByPk(currentUser.id);
     const school = await currentUser.getSchool();
-    console.log("=============", {currentUser, school})
-    const students = await school.getStudents();
+    const students = await school.getStudents({include: [{model: User}]});
 
     res.render('dashboard/students/index', { currentUser, students });
 };
@@ -126,7 +125,8 @@ const createNewStudent = async (req, res) => {
                 updatedAt: new Date()
             }, { transaction: t });
 
-            await user.setSchool(school, { transaction: t });
+            // await user.setSchool(school, { transaction: t });
+            await school.setUser(user, { transaction: t});
 
             const student = await school.createStudent({
                 regNumber: regNumber,
