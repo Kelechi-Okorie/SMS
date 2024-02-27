@@ -66,7 +66,8 @@
             <tr>
                 <td colspan="4" style="text-align: end;">
                     <button class="btn btn-outline-danger" id="submit-scores-btn">
-                        <i class="bi bi-send"></i>
+                        <span id="submit-scores-spinner" class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+
                         Sumit
                     </button>
                 </td>
@@ -117,7 +118,7 @@
     </div>
 
     <script>
-        let selectedSubjectId;
+        let selectedSubjectId, selectedStudentClassId;
 
         const remapStudents = (students, studentsResults) => {
             const remappedStudents = students.map((student, index) => {
@@ -161,7 +162,9 @@
             const subjectClassSelect = document.querySelector('#subject-id');
             const subjectClassOption = subjectClassSelect.options[subjectClassSelect.selectedIndex];
             const subjectId = subjectClassOption.value;
-            selectedSubjectId = subjectId
+
+            selectedSubjectId = subjectId;
+            selectedStudentClassId = studentClassId;
 
             submitBtn.setAttribute('disabled', true);
             submitSpinner.classList.remove('d-none');
@@ -251,7 +254,7 @@
         let submitScoresBtn;
 
         const submitScores = (formData) => {
-            const response = fetch('/api/v1/results/submitScores', {
+            const response = fetch('/api/v1/results/submit-scores', {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -264,9 +267,15 @@
         };
 
         const submitScoresHandler = async (table) => {
+            const submitBtn = document.querySelector('#submit-scores-btn');
+            const submitSpinner = document.querySelector('#submit-scores-spinner');
+
             const body = table.querySelector('tbody');
             const rows = body.querySelectorAll('tr');
 
+            const scores = {}
+            scores.subjectId = selectedSubjectId;
+            scores.studentClassId = selectedStudentClassId;
             const studentsAssessments = [];
 
             rows.forEach((row, index) => {
@@ -274,7 +283,6 @@
                 
                 const subjectLineItem = {};
                 subjectLineItem.studentId = tds[2].getAttribute('data-id');
-                subjectLineItem.subjectId = selectedSubjectId;
 
                 const inputs = tds[3].querySelectorAll('input');
                 const assessments = Array.from(inputs).map((input, index) => {
@@ -289,7 +297,27 @@
                 studentsAssessments.push(subjectLineItem);
             });
 
-            console.log(studentsAssessments);
+            scores.studentsAssessments = studentsAssessments;
+            console.log(scores);
+
+            submitBtn.setAttribute('disabled', true);
+            submitSpinner.classList.remove('d-none');
+
+            const payload = {...scores};
+            const response = await submitScores(payload);
+            console.log(response)
+            const data = await response.json();
+            
+            console.log(data);
+
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+            submitBtn.removeAttribute('disabled');
+            submitSpinner.classList.add('d-none');
         }
 
         function setUpSubmitScoresBtn() {

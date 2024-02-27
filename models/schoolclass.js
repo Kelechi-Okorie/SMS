@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.SchoolType);
 
       this.hasMany(models.StudentClass);
-      this.hasMany(models.StudentResult);
+      // this.hasMany(models.StudentResult);
 
       this.hasMany(models.Fee);
 

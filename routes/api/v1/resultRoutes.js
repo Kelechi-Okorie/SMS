@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {index, getStudents} = require('../../../controllers/results');
+const {index, getStudents, submitScores} = require('../../../controllers/results');
 
 const router = express.Router();
 
@@ -15,5 +15,6 @@ const router = express.Router();
 
 router.get('/', index);
 router.get('/fetch-students', getStudents);
+router.post('/submit-scores', submitScores);
 
 module.exports = router;

@@ -20,9 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.StudentClass);
       this.belongsTo(models.Student);
       this.hasMany(models.SubjectLineItem);
-      this.belongsTo(models.SchoolClass);
+      // this.belongsTo(models.SchoolClass);
 
-      this.belongsTo(models.Demarcation);
+      // this.belongsTo(models.Demarcation);
     }
   }
   StudentResult.init(studentResultAttributes, {

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.StudentClass);
-      this.hasMany(models.StudentResult);
+      // this.hasMany(models.StudentResult);
     }
   }
   Demarcation.init(demarcationAttributes, {

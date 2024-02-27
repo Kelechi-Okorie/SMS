@@ -20,14 +20,14 @@ module.exports = (Sequelize) => {
         type: DataTypes.INTEGER,
         references: { model: 'Terms', key: 'id' }
       },
-      schoolClassId: {
-        type: DataTypes.INTEGER,
-        references: { model: 'SchoolClasses', key: 'id' }
-      },
-      classDemarcationId: {
-        type: DataTypes.INTEGER,
-        references: { model: 'Demarcations', key: 'id' }
-      },
+      // schoolClassId: {
+      //   type: DataTypes.INTEGER,
+      //   references: { model: 'SchoolClasses', key: 'id' }
+      // },
+      // classDemarcationId: {
+      //   type: DataTypes.INTEGER,
+      //   references: { model: 'Demarcations', key: 'id' }
+      // },
       studentClassId: {
         type: DataTypes.INTEGER,
         references: { model: 'StudentClasses', key: 'id' }
