@@ -32,6 +32,7 @@ const schoolRouter = require('./routes/schoolRoute');
 const schoolTypeRouter = require('./routes/schoolTypeRoute');
 const settingsRouter = require('./routes/settingsRoutes');
 const scoreRouter = require('./routes/scoreRoutes');
+const resultRouter = require('./routes/resultRoutes');
 
 const schoolTypeRouterApi = require('./routes/api/v1/schoolTypeRoute');
 const schoolRouterApi = require('./routes/api/v1/schoolRoute');
@@ -80,6 +81,7 @@ app.use('/dashboard/school-types', schoolTypeRouter);
 app.use('/dashboard/settings', settingsRouter);
 app.use('/dashboard/subjects', subjectRouter);
 app.use('/dashboard/scores', scoreRouter);
+app.use('/dashboard/results', resultRouter);
 
 // api routes
 app.use('/api/school-types', schoolTypeRouterApi);

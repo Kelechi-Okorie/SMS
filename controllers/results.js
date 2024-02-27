@@ -1,4 +1,4 @@
-const { sequelize, User, Student, School, StudentClass, SchoolStaff, SchoolClass, Demarcation, Assessment, Grade, StudentResult, AssessmentLineItem, Subject, SubjectLineItem } = require('../models');
+const { sequelize, User, Student, School, StudentClass, SchoolStaff, SchoolClass, Demarcation, Assessment, Grade, StudentResult, AssessmentLineItem, Subject, SubjectLineItem, Session, Term } = require('../models');
 const { faker } = require('@faker-js/faker');
 
 const computeScores = require('../functions/computeScores');
@@ -22,46 +22,36 @@ const index = async (req, res) => {
     const school = await currentUser.getSchool();
     const currentSession = await school.getCurrentSession();
     const currentTerm = await school.getCurrentTerm();
-    const schoolClasses = await school.getSchoolClasses({
-        attributes: {
-            include: ['name', 'id']
-        }
-    });
 
-    let studentClasses;
+    let schoolSessions = [], studentClasses = [], studentResults = [], student;
 
-    if (currentSession) {
-        studentClasses = await StudentClass.findAll({
-            where: {
-                schoolId: school.id,
-                sessionId: currentSession.id,
-            },
+    if (currentUser.isStudent) {
+        student = await currentUser.getStudent();
+
+        studentResults = await student.getStudentResults({
+            order: [['id', 'DESC']],
             include: [
                 {
-                    model: SchoolClass,
-                    attributes: ['name', 'id']
+                    model: Session
                 },
                 {
-                    model: Demarcation,
-                    attributes: ['name', 'id']
+                    model: Term
+                },
+                {
+                    model: StudentClass,
+                    include: [{model: SchoolClass}, {model: Demarcation}]
                 }
             ]
         });
+
+        if (currentSession) {
+            schoolSessions.push(currentSession);
+        }
     }
 
-    const subjects = await school.getSubjects({ attributes: ['id', 'name'] });
-    const assessments = await Assessment.findAll();
-    const grades = await Grade.findAll();
-    const schoolSettings = await school.getSchoolSetting();
+    console.log(studentResults);
 
-    let settings;
-    if (schoolSettings) {
-        settings = schoolSettings.settings;
-    }
-
-    console.log('sflskslfkslfsjl-----', currentSession)
-
-    res.render('dashboard/scores/index', { currentUser, currentSession, currentTerm, schoolClasses, studentClasses, subjects, assessments, grades });
+    res.render('dashboard/results/index', {currentUser, student, studentResults, schoolSessions});
 };
 
 const getById = async (req, res) => {
@@ -107,8 +97,8 @@ const getStudents = async (req, res) => {
                     id: studentClassId
                 },
                 include: [
-                    {model: SchoolClass},
-                    {model: Demarcation}
+                    { model: SchoolClass },
+                    { model: Demarcation }
                 ],
                 transaction: t
             });
@@ -155,7 +145,7 @@ const getStudents = async (req, res) => {
                 transaction: t
             });
 
-            const subject = await Subject.findOne({where: {id: subjectId, schoolId: school.id}, transaction: t});
+            const subject = await Subject.findOne({ where: { id: subjectId, schoolId: school.id }, transaction: t });
 
             const data = {
                 studentClass,
@@ -270,7 +260,7 @@ const submitScores = async (req, res) => {
                 await subjectLineItem.update({
                     score: computeScores.subjectTotalScore(subjectLineItem)
                 },
-                    { transaction: t}
+                    { transaction: t }
                 );
 
 

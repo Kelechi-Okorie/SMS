@@ -1,0 +1,42 @@
+<%- include('../../includes/header', {currentUser}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">Results</h2>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session</th>
+                    <th scope="col">Term</th>
+                    <th scope="col">Checked</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% studentResults.map((result, index)=> { %>
+                    <% const { id, StudentClass, Session, Term}=result; %>
+                    <% const { SchoolClass, Demarcation, isChecked} = StudentClass %>
+                        <tr>
+                            <th scope="row"><%= index + 1 %></th>
+                            <td>
+                                <a href="/dashboard/results/<%= id %>">
+                                <%= Session.name %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= Term.name %>
+                            </td>
+                            <td>
+                                <%= isChecked ? 'Yes' : 'No' %>
+                            </td>
+                        </tr>
+                        <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+<%- include('../../includes/footer') %>
