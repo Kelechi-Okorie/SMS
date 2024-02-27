@@ -106,6 +106,10 @@ const getStudents = async (req, res) => {
                     schoolId: school.id,
                     id: studentClassId
                 },
+                include: [
+                    {model: SchoolClass},
+                    {model: Demarcation}
+                ],
                 transaction: t
             });
 
@@ -151,10 +155,13 @@ const getStudents = async (req, res) => {
                 transaction: t
             });
 
+            const subject = await Subject.findOne({where: {id: subjectId, schoolId: school.id}, transaction: t});
+
             const data = {
                 studentClass,
                 students,
-                studentsResults
+                studentsResults,
+                subject
             }
 
             _res.status = 200;

@@ -9,7 +9,7 @@
         <div>
             <div class="card mb-3">
                 <div class="card-body d-flex">
-                    <div>
+                    <div id="heading">
                         <span class="badge text-white" style="background-color:#ED6C02;">
                             Session: <%= currentSession.name %>
                         </span>
@@ -20,7 +20,7 @@
                             Class: <%= studentClasses[0].SchoolClass.name %> <%= studentClasses[0].Demarcation.name %>
                         </span>
                         <span class="badge text-white" style="background-color:#ED6C02;" id="subject">
-                            Class: <%= subjects[0].name %>
+                            Subject: <%= subjects[0].name %>
                         </span>
                     </div>
                     <div class="ms-auto">
@@ -154,6 +154,17 @@
             const submitBtn = document.querySelector('#fetch-students-btn');
             const submitSpinner = document.querySelector('#fetch-students-spinner');
 
+            const table = document.querySelector('table');
+            const currentBody = table.querySelector('tbody');
+            if(currentBody) {
+                table.removeChild(currentBody);
+            }
+
+            const currentFoot = table.querySelector('tfoot');
+            if(currentFoot) {
+                table.removeChild(currentFoot);
+            }
+
             const form = evt.srcElement;
             const studentClassSelect = document.querySelector('#student-class-id');
             const studentClassOption = studentClassSelect.options[studentClassSelect.selectedIndex];
@@ -176,7 +187,6 @@
             if(data.success) {
                 const { students, studentsResults} = data.data;
                 const remappedStudents = remapStudents(students, studentsResults);
-                console.log(remappedStudents);
 
                 const tableBodyTemplate = document.querySelector('#table-body');
                 let tBodyClone = tableBodyTemplate.content.cloneNode(true);
@@ -185,7 +195,6 @@
                 remappedStudents.forEach((student, index) => {
                     const { subjectLineItem } = student;
                     const { AssessmentLineItems } = subjectLineItem;
-                    console.log('the subject line item', subjectLineItem)
 
                     let template = document.querySelector("#student-template");
                     let clone = template.content.cloneNode(true);
@@ -274,13 +283,20 @@
                     tbody.appendChild(clone);
                 });
 
-
-                const table = document.querySelector('table');
                 table.appendChild(tbody);
 
                 const tFootTemplate = document.querySelector('#student-table-footer');
                 const tFootTemplateClone = tFootTemplate.content.cloneNode(true);
                 table.appendChild(tFootTemplateClone);
+
+                let subjectSpan = document.querySelector('#subject-span');
+                subjectSpan.textContent = `${data.data.subject.name}/`;
+                subjectSpan = document.querySelector('div#heading span#subject');
+                subjectSpan.textContent = `Subject: ${data.data.subject.name}`;
+
+                const studentClassSpan = document.querySelector('div#heading span#student-class');
+                const { SchoolClass, Demarcation} = data.data.studentClass;
+                studentClassSpan.textContent = `Class: ${SchoolClass.name} ${Demarcation.name}`;
 
                 // const changeClassModal = new bootstrap.Modal('#change-class', {});
             }
@@ -316,7 +332,7 @@
             const submitBtn = document.querySelector('#submit-scores-btn');
             const submitSpinner = document.querySelector('#submit-scores-spinner');
 
-            const body = table.querySelector('tbody');
+            const body = table.querySelector('tbody');;
             const rows = body.querySelectorAll('tr');
 
             const scores = {}
@@ -350,10 +366,8 @@
 
             const payload = {...scores};
             const response = await submitScores(payload);
-            console.log(response)
             const data = await response.json();
             
-            console.log(data);
 
             window.scroll({
                 top: 0,
