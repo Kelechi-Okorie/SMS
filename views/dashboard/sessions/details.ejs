@@ -118,10 +118,7 @@
                 isCurrentSession: true
             };
             const response = await fetchRequest(`/api/v1/sessions/${sessionId}`, formData);
-            console.log(response)
             const data = await response.json();
-
-            console.log(data);
 
             // console.log('start session', options);
             // const message = 'this is the message';

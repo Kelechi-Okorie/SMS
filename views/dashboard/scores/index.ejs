@@ -1,0 +1,266 @@
+<%- include('../../includes/header', {currentUser}) %>
+
+    <div class="main-content p-2">
+
+        <div class="mb-3 d-flex">
+            <h2 class="title">Add Scores</h2>
+        </div>
+
+        <div>
+            <div class="card mb-3">
+                <div class="card-body d-flex">
+                    <div>
+                        <span class="badge text-white" style="background-color:#ED6C02;">
+                            Session: <%= currentSession.name %>
+                        </span>
+                        <span class="badge text-white" style="background-color:#ED6C02;">
+                            Term: <%= currentTerm.name %>
+                        </span>
+                        <span class="badge text-white" style="background-color:#ED6C02;" id="student-class">
+                            Class: <%= studentClasses[0].SchoolClass.name %> <%= studentClasses[0].Demarcation.name %>
+                        </span>
+                        <span class="badge text-white" style="background-color:#ED6C02;" id="subject">
+                            Class: <%= subjects[0].name %>
+                        </span>
+                    </div>
+                    <div class="ms-auto">
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#change-class">
+                            <i class="bi bi-pencil"></i> Change
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Reg No</th>
+                    <th scope="col"><span id="subject-span"></span>Score</th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+    <!-- Table body template -->
+    <template id="table-body">
+        <tbody id="table-body" class="mb-3">
+        </tbody>
+    </template>
+    <!-- Student table template -->
+    <template id="student-template">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </template>
+
+    <!-- Table foot -->
+    <template id="student-table-footer">
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: end;">
+                    <button class="btn btn-outline-danger" id="submit-scores-btn">
+                        <i class="bi bi-send"></i>
+                        Sumit
+                    </button>
+                </td>
+            </tr>
+        </tfoot>
+    </template>
+
+    <!-- Change class modal -->
+    <div class="modal fade" id="change-class" tabindex="-1" aria-labelledby="changeClass" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 400px">
+            <form action="/api/users/new" method="POST" id="fetch-students-form">            
+                <div class="modal-content" style="width: 300px">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Get Students</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <label for="studentClassId" class="form-label">Class</label>
+                            <select class="form-select mb-3" aria-label="Default select example" name="studentClassId" id="student-class-id">
+                                <% studentClasses.forEach((studentClass, index) => { %>
+                                    <% const { id, SchoolClass, Demarcation } = studentClass  %>
+                                    <option value=<%= id %>><%= SchoolClass.name %> <%= Demarcation.name %></option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                            
+                        <div>
+                            <label for="subjectsId" class="form-label">Subjects</label>
+                            <select class="form-select mb-3" aria-label="Default select example" name="subjectsId" id="subject-id">
+                                <% subjects.forEach((subject, index) => { %>
+                                    <% const { id, name } = subject %>
+                                    <option value=<%= id %>><%= name %></option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="fetch-students-btn" type="submit">
+                                <span id="fetch-students-spinner" class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+                                Fetch Students
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let selectedSubjectId;
+
+        const remapStudents = (students, studentsResults) => {
+            const remappedStudents = students.map((student, index) => {
+                // if (studentsResults.length === 0) return { ...student, subjectLineItem: SubjectLineItem };
+
+                const resultIndex = studentsResults.findIndex((studentResult) => {
+                    return student.id === studentResult.studentId;
+                });
+
+                if (resultIndex !== -1) {
+                    const remappedStudent = { ...student, subjectLineItem: studentsResults[resultIndex].SubjectLineItems[0] };
+                    studentsResults.splice(resultIndex, 1);
+                    return remappedStudent;
+                }
+
+                return { ...student, subjectLineItem: [] };
+            });
+
+            return remappedStudents;
+        }
+
+        const fetchStudents = (formData) => {
+            const { studentClassId, subjectId } = formData;
+
+            const url = `/api/v1/results/fetch-students?studentClassId=${studentClassId}&subjectId=${subjectId}`;
+            const response = fetch(url);
+
+            return response;
+        };
+
+        const fetchStudentsBtn = document.querySelector('#fetch-students-btn');
+        fetchStudentsBtn.addEventListener('click', async (evt) => {
+            const submitBtn = document.querySelector('#fetch-students-btn');
+            const submitSpinner = document.querySelector('#fetch-students-spinner');
+
+            const form = evt.srcElement;
+            const studentClassSelect = document.querySelector('#student-class-id');
+            const studentClassOption = studentClassSelect.options[studentClassSelect.selectedIndex];
+            const studentClassId = studentClassOption.value;
+
+            const subjectClassSelect = document.querySelector('#subject-id');
+            const subjectClassOption = subjectClassSelect.options[subjectClassSelect.selectedIndex];
+            const subjectId = subjectClassOption.value;
+            selectedSubjectId = subjectId
+
+            submitBtn.setAttribute('disabled', true);
+            submitSpinner.classList.remove('d-none');
+
+            const payload = {studentClassId, subjectId};
+            const response = await fetchStudents(payload);
+            const data = await response.json();
+
+            if(data.success) {
+                const { students, studentsResults} = data.data;
+                const remappedStudents = remapStudents(students, studentsResults);
+                console.log(remappedStudents);
+
+                const tableBodyTemplate = document.querySelector('#table-body');
+                let tBodyClone = tableBodyTemplate.content.cloneNode(true);
+                tbody = tBodyClone.querySelector('tbody');
+
+                students.forEach((student, index) => {
+                    let template = document.querySelector("#student-template");
+                    let clone = template.content.cloneNode(true);
+                    let tds = clone.querySelectorAll('td');
+
+                    const { User } = student;
+                    tds[0].textContent = index + 1;
+                    tds[1].textContent = User.fullName;
+                    tds[2].textContent = student.regNumber;
+
+                    let input = document.createElement('input');
+                    input.setAttribute('class', 'first me-2');
+                    input.setAttribute('type', 'number');
+                    input.style.setProperty('width', '50px')
+                    tds[3].appendChild(input);
+
+                    input = document.createElement('input');
+                    input.setAttribute('class', 'second me-2');
+                    input.setAttribute('type', 'number');
+                    input.style.setProperty('width', '50px')
+                    tds[3].appendChild(input)
+
+                    input = document.createElement('input');
+                    input.setAttribute('class', 'third me-2');
+                    input.setAttribute('type', 'number');
+                    input.style.setProperty('width', '50px')
+                    tds[3].appendChild(input)
+
+                    tbody.appendChild(clone);
+                });
+
+
+                const table = document.querySelector('table');
+                table.appendChild(tbody);
+
+                const tFootTemplate = document.querySelector('#student-table-footer');
+                const tFootTemplateClone = tFootTemplate.content.cloneNode(true);
+                table.appendChild(tFootTemplateClone);
+
+                // const changeClassModal = new bootstrap.Modal('#change-class', {});
+            }
+
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+            submitBtn.removeAttribute('disabled');
+            submitSpinner.classList.add('d-none');
+
+            setUpSubmitScoresBtn();
+        })
+    
+        let submitScoresBtn;
+
+        const submitScores = (formData) => {
+            const response = fetch('/api/v1/results/submitScores', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            return response;
+        };
+
+        const submitScoresHandler = async (table) => {
+            const body = table.querySelector('tbody');
+            const rows = body.querySelectorAll('tr');
+            console.log(rows, selectedSubjectId)
+        }
+
+        function setUpSubmitScoresBtn() {
+            submitScoresBtn = document.querySelector('#submit-scores-btn');
+            submitScoresBtn.addEventListener('click', async (evt) => {
+                const table = document.querySelector('table');
+                submitScoresHandler(table);
+            });
+        }
+    </script>
+
+<%- include('../../includes/footer') %>
