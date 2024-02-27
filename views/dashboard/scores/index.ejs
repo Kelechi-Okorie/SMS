@@ -188,21 +188,36 @@
                     tds[0].textContent = index + 1;
                     tds[1].textContent = User.fullName;
                     tds[2].textContent = student.regNumber;
+                    tds[2].setAttribute('data-id', student.id);
 
                     let input = document.createElement('input');
-                    input.setAttribute('class', 'first me-2');
+                    input.setAttribute('class', 'me-2');
+                    input.setAttribute('data-name', 'first');
+                    input.setAttribute('data-id', '1');
                     input.setAttribute('type', 'number');
                     input.style.setProperty('width', '50px')
                     tds[3].appendChild(input);
 
                     input = document.createElement('input');
-                    input.setAttribute('class', 'second me-2');
+                    input.setAttribute('class', 'me-2');
+                    input.setAttribute('data-name', 'second');
+                    input.setAttribute('data-id', '2');
                     input.setAttribute('type', 'number');
                     input.style.setProperty('width', '50px')
                     tds[3].appendChild(input)
 
                     input = document.createElement('input');
-                    input.setAttribute('class', 'third me-2');
+                    input.setAttribute('class', 'me-2');
+                    input.setAttribute('data-name', 'third')
+                    input.setAttribute('data-id', '3')
+                    input.setAttribute('type', 'number');
+                    input.style.setProperty('width', '50px')
+                    tds[3].appendChild(input)
+
+                    input = document.createElement('input');
+                    input.setAttribute('class', 'me-2');
+                    input.setAttribute('data-name', 'exam')
+                    input.setAttribute('data-id', '4')
                     input.setAttribute('type', 'number');
                     input.style.setProperty('width', '50px')
                     tds[3].appendChild(input)
@@ -251,7 +266,30 @@
         const submitScoresHandler = async (table) => {
             const body = table.querySelector('tbody');
             const rows = body.querySelectorAll('tr');
-            console.log(rows, selectedSubjectId)
+
+            const studentsAssessments = [];
+
+            rows.forEach((row, index) => {
+                const tds = row.querySelectorAll('td');
+                
+                const subjectLineItem = {};
+                subjectLineItem.studentId = tds[2].getAttribute('data-id');
+                subjectLineItem.subjectId = selectedSubjectId;
+
+                const inputs = tds[3].querySelectorAll('input');
+                const assessments = Array.from(inputs).map((input, index) => {
+                    return {
+                        name: input.getAttribute('data-name'),
+                        id: input.getAttribute('data-id'),
+                        score: input.value
+                    };
+                });
+
+                subjectLineItem.assessments = assessments;
+                studentsAssessments.push(subjectLineItem);
+            });
+
+            console.log(studentsAssessments);
         }
 
         function setUpSubmitScoresBtn() {
