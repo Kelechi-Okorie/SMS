@@ -182,7 +182,11 @@
                 let tBodyClone = tableBodyTemplate.content.cloneNode(true);
                 tbody = tBodyClone.querySelector('tbody');
 
-                students.forEach((student, index) => {
+                remappedStudents.forEach((student, index) => {
+                    const { subjectLineItem } = student;
+                    const { AssessmentLineItems } = subjectLineItem;
+                    console.log('the subject line item', subjectLineItem)
+
                     let template = document.querySelector("#student-template");
                     let clone = template.content.cloneNode(true);
                     let tds = clone.querySelectorAll('td');
@@ -201,13 +205,34 @@
                     input.style.setProperty('width', '50px')
                     tds[3].appendChild(input);
 
+                    if(AssessmentLineItems) {
+                        const first = AssessmentLineItems.find((element, index) => {
+                            return element.assessmentId = 1;
+                        });
+
+                        if(first) {
+                            input.value = first.score;
+                        }
+                    }
+
+
                     input = document.createElement('input');
                     input.setAttribute('class', 'me-2');
                     input.setAttribute('data-name', 'second');
                     input.setAttribute('data-id', '2');
                     input.setAttribute('type', 'number');
                     input.style.setProperty('width', '50px')
-                    tds[3].appendChild(input)
+                    tds[3].appendChild(input);
+
+                    if(AssessmentLineItems) {
+                        const second = AssessmentLineItems.find((element, index) => {
+                            return element.assessmentId = 2;
+                        });
+
+                        if(second) {
+                            input.value = second.score;
+                        }
+                    }
 
                     input = document.createElement('input');
                     input.setAttribute('class', 'me-2');
@@ -215,7 +240,17 @@
                     input.setAttribute('data-id', '3')
                     input.setAttribute('type', 'number');
                     input.style.setProperty('width', '50px')
-                    tds[3].appendChild(input)
+                    tds[3].appendChild(input);
+
+                    if(AssessmentLineItems) {
+                        const third = AssessmentLineItems.find((element, index) => {
+                            return element.assessmentId = 3;
+                        });
+
+                        if(third) {
+                            input.value = third.score;
+                        }
+                    }
 
                     input = document.createElement('input');
                     input.setAttribute('class', 'me-2');
@@ -223,7 +258,18 @@
                     input.setAttribute('data-id', '4')
                     input.setAttribute('type', 'number');
                     input.style.setProperty('width', '50px')
-                    tds[3].appendChild(input)
+                    tds[3].appendChild(input);
+
+
+                    if(AssessmentLineItems) {
+                        const exam = AssessmentLineItems.find((element, index) => {
+                            return element.assessmentId = 4;
+                        });
+
+                        if(exam) {
+                            input.value = exam.score;
+                        }
+                    }
 
                     tbody.appendChild(clone);
                 });
@@ -298,7 +344,6 @@
             });
 
             scores.studentsAssessments = studentsAssessments;
-            console.log(scores);
 
             submitBtn.setAttribute('disabled', true);
             submitSpinner.classList.remove('d-none');
