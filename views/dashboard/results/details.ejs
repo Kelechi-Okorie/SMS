@@ -1,0 +1,67 @@
+<%- include('../../includes/header', { currentUser}) %>
+
+    <% const { Student, Session, Term, StudentClass, SubjectLineItems } = result %>
+    <% const { User } = Student %>
+    <% const { SchoolClass, Demarcation} = StudentClass %>
+
+    <div class="main-content p-3">
+
+            <div class="mb-3 d-flex">
+                <h2 class="title">Result</h2>
+            </div>
+
+
+            <div class="">
+                <div class="">
+                    <div class="mb-3">
+                        <h3 class="mb-3"><%= school.name %></h3>
+                        <p><span class="fw-bold">Name:</span> <%= User.fullName %></p>
+                        <p><span class="fw-bold">Reg Number:</span> <%= Student.regNumber %></p>
+                        <div class="d-flex">
+                            <p class="me-5"><span class="fw-bold">Session:</span> <%= Session.name %></p>
+                            <p class="me-5"><span class="fw-bold">Term:</span> <%= Term.name %></p>
+                            <p><span class="fw-bold">Class:</span> <%= SchoolClass.name %> <%= Demarcation.name %></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <th scope="col">Subject</th>
+                                <% assessments.map((assessment, index) => { %>
+                                    <th><%= assessment.name %></th>
+                                <% }); %>
+                                <th scope="col">Total</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Remark</th>        
+                            </thead>
+                            <tbody>
+                                <% SubjectLineItems.map((subjectLineItem, index) => { %>
+                                    <% const { AssessmentLineItems, Subject } = subjectLineItem  %>
+                                    <% AssessmentLineItems.sort((first, second) => first.Assessment.ordinal - second.Assessment.ordinal); %>
+
+                                    <% const total = AssessmentLineItems.reduce((acc, cur) => acc + cur.score, 0); %>
+                                    <% const grade = grades.find((grade, index) => total >= grade.min && total <= grade.max);  %>
+
+                                    <tr>
+                                        <td><%= Subject.name  %></td>
+
+                                        <% AssessmentLineItems.map((assessment, index) => { %>
+                                            <td><%= assessment.score %></td>
+                                        <% }); %>
+
+                                        <td><%= total  %></td>
+                                        <td><%= grade.name  %></td>
+                                        <td class="text-capitalize"><%= grade.remarks  %></td>
+                                    </tr>
+        
+
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    <%- include('../../includes/footer', { currentUser}) %>

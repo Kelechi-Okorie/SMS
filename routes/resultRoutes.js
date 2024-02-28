@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {index, getStudents} = require('../controllers/results');
+const {index, getById} = require('../controllers/results');
 
 const router = express.Router();
 
@@ -14,5 +14,6 @@ const router = express.Router();
 // });
 
 router.get('/', index);
+router.get('/:id', getById);
 
 module.exports = router;

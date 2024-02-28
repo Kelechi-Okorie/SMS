@@ -39,7 +39,7 @@ const index = async (req, res) => {
                 },
                 {
                     model: StudentClass,
-                    include: [{model: SchoolClass}, {model: Demarcation}]
+                    include: [{ model: SchoolClass }, { model: Demarcation }]
                 }
             ]
         });
@@ -49,9 +49,7 @@ const index = async (req, res) => {
         }
     }
 
-    console.log(studentResults);
-
-    res.render('dashboard/results/index', {currentUser, student, studentResults, schoolSessions});
+    res.render('dashboard/results/index', { currentUser, student, studentResults, schoolSessions });
 };
 
 const getById = async (req, res) => {
@@ -65,13 +63,66 @@ const getById = async (req, res) => {
     if (!currentUser) {
         res.redirect('/auth/sign-in');
     }
+
+    const _res = {}
+
     currentUser = await User.findByPk(currentUser.id);
     const school = await currentUser.getSchool();
 
+    const result = await StudentResult.findOne({
+        where: {
+            schoolId: school.id,
+            id: id
+        },
+        include: [
+            {
+                model: School,
+                attributes: ['id', 'name']
+            },
+            {
+                model: Student,
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'firstName', 'middleName', 'lastName', 'fullName']
+                    }
+                ]
+            },
+            {
+                model: Session,
+                attributes: ['id', 'name']
+            },
+            {
+                model: Term,
+                attributes: ['id', 'name']
+            },
+            {
+                model: StudentClass,
+                include: [{ model: SchoolClass }, { model: Demarcation }]
+            },
+            {
+                model: SubjectLineItem,
+                include: [
+                    {
+                        model: Subject
+                    },
+                    {
+                        model: AssessmentLineItem,
+                        include: [
+                            {
+                                model: Assessment
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    });
 
-    const staff = await SchoolStaff.findOne({ where: { id, schoolId: school.id }, include: [{ model: User }] });
+    const grades = await Grade.findAll();
+    const assessments = await Assessment.findAll();
 
-    res.render('dashboard/staffs/details', { currentUser, staff });
+    res.render('dashboard/results/details', { currentUser, result, grades, assessments, school });
 };
 
 const getStudents = async (req, res) => {
@@ -290,6 +341,6 @@ const submitScores = async (req, res) => {
     res.json(_res)
 }
 
-const resultController = { index, getStudents, submitScores };
+const resultController = { index, getStudents, getById, submitScores };
 
 module.exports = resultController;
