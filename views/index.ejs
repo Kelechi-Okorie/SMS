@@ -1,11 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/font/bootstrap-icons.min.css" />
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        header {
+            /* background-color: #1976d2; */
+        }
+
+        figure {
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+
 </head>
+
 <body>
-    This is the landing page
+    <header>
+        <nav class="navbar navbar-expand-lg text-bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">SMS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#services">Services</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="main-content">
+        <div class="container-fluid text-center p-3 mb-5" id="banner">
+            <div class="row py-5">
+                <div class="col-sm-12 col-lg-6">
+                    <h2 class="mb-5">Transform your school management with technology</h2>
+                    <p>Essentially manage your school with ease - simplify your administrative tasks with our software.
+                        Say goodbye to the hassles of traditional school management</p>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <img src="/img/sms-banner.png" alt="The banner">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid text-center bg-primary mb-5">
+        <div class="row p-2 py-5 text-white">
+            <div class="col-sm-12 col-lg-6">
+                <h2>Revolutionize your school management with technology</h2>
+            </div>
+            <div class="col-sm-12 col-lg-6">
+                <button class="btn btn-secondary">Contact us</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mb-5" id="about">
+        <div class="row">
+            <div class="col">
+                <h3>About</h3>
+                <p>SMS is a School Management System for digitizing and simplifying the process of managing your schools
+                    administrative and academic tasks</p>
+                <p>SMS offers features to remove the drudgery of manual works for your staff</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mb-5" id="services">
+        <div class="row">
+            <div class="col">
+                <h3>We offer the following</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Automate the process of adding scores and result computations</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Easily manage students and staff information and profile</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">You can record and view students attendance online</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="p-5 text-bg-dark" style="margin: 0; padding: 0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-lg-4">
+                    <h4>Get started</h4>
+                    <ul style="list-style: none; padding-left: 0">
+                        <li><a class="text-decoration-none text-white" href="https://wa.me/+2348067989766">Get started</a></li>
+                        <li><a class="text-decoration-none text-white" href="https://wa.me/+2348067989766">Book a demo</a></li>
+                        <li><a class="text-decoration-none text-white" href="https://wa.me/+2348067989766">Chat with us</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-lg-4">
+                    <h4>Address</h4>
+                    <ul style="list-style: none; padding-left: 0">
+                        <li>Testrogen Innovation Hub</li>
+                        <li>78 Enugu-Abakaliki Expressway</li>
+                        <li>Abakaliki</li>
+                        <li>Ebonyi state</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <h4>Contact Us</h4>
+                    <ul style="list-style: none; padding-left: 0">
+                        <li><a class="text-decoration-none text-white" href="https://wa.me/+2348067989766"><i class="bi bi-whatsapp"></i> Chat with us</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>
